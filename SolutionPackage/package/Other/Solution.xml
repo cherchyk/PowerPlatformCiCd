@@ -79,6 +79,7 @@
     </Publisher>
     <RootComponents>
       <RootComponent type="1" schemaName="ms_sample" behavior="0" />
+      <RootComponent type="61" schemaName="dkdt_/sample.html" behavior="0" />
     </RootComponents>
     <MissingDependencies />
   </SolutionManifest>

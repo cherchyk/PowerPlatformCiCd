@@ -1,0 +1,31 @@
+{
+    "webresources": [
+		{
+			/* 
+            Option - profile - Provide a comma delimitered list of profile names that can be referenced when calling spkl
+            */
+			"profile": "default,debug",
+
+			/*
+            Optional - root - Provide the relatative path of the webresources.
+            */
+			"root": "",
+
+			/*
+            Optional - solution - Add webresources to a solution when deploying
+            */
+			"solution": "almdemo",
+
+			/*
+            Required - files - List the webresources to deploy relatative to the root of this file (or the the root parameter above)
+            */
+			"files": [
+				{
+					"uniquename": "dkdt_/sample.html",
+					"file": "sample.html",
+					"description": ""
+				}
+			]
+		}
+    ]
+}
