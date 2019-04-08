@@ -11,3 +11,6 @@ bin
 Deployment/Builds/
 obj
 packages
+/Plugins/spkl
+/SolutionPackage/spkl
+/WebResources/spkl

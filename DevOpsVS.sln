@@ -45,6 +45,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebResources", "WebResource
 		SlnRelativePath = "WebResources\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Plugins\Plugins.csproj", "{9E810318-06BE-4163-A6D5-2DEADA02A884}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{A23954EE-20E3-49CD-97C2-D1B5DA4712B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A23954EE-20E3-49CD-97C2-D1B5DA4712B7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{A23954EE-20E3-49CD-97C2-D1B5DA4712B7}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{9E810318-06BE-4163-A6D5-2DEADA02A884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E810318-06BE-4163-A6D5-2DEADA02A884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E810318-06BE-4163-A6D5-2DEADA02A884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E810318-06BE-4163-A6D5-2DEADA02A884}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
