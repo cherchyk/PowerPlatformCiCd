@@ -1,0 +1,53 @@
+{
+
+    /*
+    The solutions section defines a solution that can be extracted to individual xml files to make
+    versioning of Dynamics metadata (entities, attributes etc) easier
+    */
+    "solutions": [
+		{
+			"profile": "default,debug",
+			/*
+            The unique name of the solution to extract, unpack, pack and import
+            */
+			"solution_uniquename": "almdemo",
+			/*
+            The relative folder path to store the extracted solution metadata xml files
+            */
+			"packagepath": "package",
+			/*
+            The relative path name of the solution to pack into
+            */
+			"solutionpath": "almdemo_{0}_{1}_{2}_{3}.zip",
+			/*
+            Set to 'unmanaged' or 'managed' - default to 'unmanaged' if omitted
+            */
+			"packagetype": "unmanaged",
+			/*
+            Set to 'true' to increment the minor version number before importing from the xml files
+            */
+			"increment_on_import": false,
+
+			/*
+            Map code artefacts to the solution package folder
+            */
+			"map": [
+				{
+					"map": "path",
+					"from": "PluginAssemblies\\**\\*.*",
+					"to": "..\\..\\Plugins\\bin\\**"
+				},
+				{
+					"map": "path",
+					"from": "WebResources\\*.*",
+					"to": "..\\..\\Webresources\\Webresources\\**"
+				},
+				{
+					"map": "path",
+					"from": "WebResources\\**\\*.*",
+					"to": "..\\..\\Webresources\\Webresources\\**"
+				}
+			]
+		}
+    ]
+}

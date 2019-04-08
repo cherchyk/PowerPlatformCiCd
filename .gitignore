@@ -1,0 +1,13 @@
+*.dll
+*.DotSettings
+*.pdb
+*.suo
+*.user
+*.vspscc
+*.vssscc
+.nuget
+.vs
+bin
+Deployment/Builds/
+obj
+packages
