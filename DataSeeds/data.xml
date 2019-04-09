@@ -1,0 +1,47 @@
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" timestamp="4/8/2019 11:19:18 PM">
+  <entity name="ms_sample" displayname="Sample">
+    <records>
+      <record id="3b086a19-765a-e911-a982-000d3af3eee6">
+        <field name="createdby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="createdon" value="4/9/2019 3:18:14 AM" />
+        <field name="modifiedby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="modifiedon" value="4/9/2019 3:18:14 AM" />
+        <field name="ms_name" value="Three" />
+        <field name="ownerid" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="owningbusinessunit" value="25e5f22c-d8e3-e811-a97f-000d3af3e011" lookupentity="businessunit" />
+        <field name="owninguser" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" />
+        <field name="ms_sampleid" value="3b086a19-765a-e911-a982-000d3af3eee6" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="48963321-765a-e911-a982-000d3af3eee6">
+        <field name="createdby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="createdon" value="4/9/2019 3:18:26 AM" />
+        <field name="modifiedby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="modifiedon" value="4/9/2019 3:18:26 AM" />
+        <field name="ms_name" value="Two" />
+        <field name="ownerid" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="owningbusinessunit" value="25e5f22c-d8e3-e811-a97f-000d3af3e011" lookupentity="businessunit" />
+        <field name="owninguser" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" />
+        <field name="ms_sampleid" value="48963321-765a-e911-a982-000d3af3eee6" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="54963321-765a-e911-a982-000d3af3eee6">
+        <field name="createdby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="createdon" value="4/9/2019 3:18:31 AM" />
+        <field name="modifiedby" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="modifiedon" value="4/9/2019 3:18:31 AM" />
+        <field name="ms_name" value="One" />
+        <field name="ownerid" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" lookupentityname="Bohdan Cherchyk" />
+        <field name="owningbusinessunit" value="25e5f22c-d8e3-e811-a97f-000d3af3e011" lookupentity="businessunit" />
+        <field name="owninguser" value="df6b8611-fa38-44c9-8920-c3d478c27b26" lookupentity="systemuser" />
+        <field name="ms_sampleid" value="54963321-765a-e911-a982-000d3af3eee6" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+    </records>
+    <m2mrelationships />
+  </entity>
+</entities>
