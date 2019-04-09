@@ -80,9 +80,16 @@
     <RootComponents>
       <RootComponent type="1" schemaName="ms_sample" behavior="0" />
       <RootComponent type="61" schemaName="dkdt_/sample.html" behavior="0" />
+      <RootComponent type="62" schemaName="ms_SampleApp" behavior="0" />
+      <RootComponent type="80" schemaName="ms_SampleApp" behavior="0" />
       <RootComponent type="91" id="{7c64df39-a059-e911-a988-000d3af3d397}" schemaName="Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=01a9edd0225fdf83" behavior="0" />
       <RootComponent type="92" id="{b0d39e3e-a059-e911-a989-000d3af3d307}" behavior="0" />
     </RootComponents>
-    <MissingDependencies />
+    <MissingDependencies>
+      <MissingDependency>
+        <Required key="0" type="61" schemaName="msdyn_/Images/AppModule_Default_Icon.png" displayName="msdyn_/Images/AppModule_Default_Icon.png" solution="AppModuleWebResources (2.5)" />
+        <Dependent key="1" type="80" schemaName="ms_SampleApp" displayName="Sample App" />
+      </MissingDependency>
+    </MissingDependencies>
   </SolutionManifest>
 </ImportExportXml>
