@@ -31,3 +31,85 @@ steps:
 #  inputs:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
+
+
+###############################
+###############################
+###############################
+###############################
+
+- script: md tools
+  displayName: 'Create tools directory'
+
+- powershell: |
+    Invoke-WebRequest `
+      -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe `
+      -OutFile tools\\nuget.exe
+  displayName: 'Download nuget.exe'
+
+- powershell: |
+    tools\\nuget.exe install Microsoft.CrmSdk.CoreTools -O tools
+    md "tools\\CoreTools"
+    $coreToolsFolder = Get-ChildItem tools | Where-Object {$_.Name -match 'Microsoft.CrmSdk.CoreTools.'}
+    move "tools\\$coreToolsFolder\\content\\bin\\coretools\\*.*" "tools\\CoreTools"
+    Remove-Item "tools\\$coreToolsFolder" -Force -Recurse
+  displayName: 'Install CoreTools'
+  
+
+
+#Pack Solution from repository
+# .\bin\coretools\SolutionPackager.exe /action Pack /packagetype Unmanaged /zipfile .\contoso.zip /folder .\package /map: map.xml
+- powershell: |
+    Start-Process tools/CoreTools/SolutionPackager.exe `
+    -ArgumentList `
+      "/action: Pack", `
+      "/zipfile: $(Build.ArtifactStagingDirectory)\packedSolution\$env:SolutionName.zip", `
+      "/folder: $env:SolutionPath", `
+      "/packagetype: Unmanaged" `
+    -Wait `
+    -NoNewWindow
+  env:
+    SolutionPath: $(solution.path)
+    SolutionName: $(solution.name)
+  displayName: 'Solution Packager: pack solution'
+
+
+
+
+#Publish build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: drop
+  displayName: 'Publish build artifacts'
+
+
+
+
+
+
+#Import solution into target environment
+- powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+  displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+
+
+#Connect to CRM and Import
+- powershell: |
+    $connection = Get-CrmConnection `
+      -ConnectionString `
+        ("AuthType = Office365;" + `
+        "Username = $env:ServiceAccountUpn;" + `
+        "Password = $env:ServiceAccountPassword;" + `
+        "Url = https://$env:EnvironmentUrl")
+
+    #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+    Import-CrmSolution `
+      -conn $connection `
+      -SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName)_managed.zip
+      #-MaxWaitTimeInSeconds 1500
+  env:
+    EnvironmentUrl: $(environment.url)
+    SolutionName: $(solution.name)
+    ServiceAccountUpn: $(serviceAccount.upn)
+    ServiceAccountPassword: $(serviceAccount.password)
+  displayName: 'Import solution'
