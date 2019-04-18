@@ -107,7 +107,8 @@ steps:
     #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
     Import-CrmSolution `
       -conn $connection `
-      -SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName)_managed.zip
+      -SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName).zip
+      #-SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName)_managed.zip
       #-MaxWaitTimeInSeconds 1500
   env:
     EnvironmentUrl: $(environment.url)
