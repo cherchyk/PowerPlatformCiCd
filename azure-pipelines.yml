@@ -15,6 +15,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- task: AzureKeyVault@1
+  inputs:
+    ConnectedServiceName: 'Microsoft Azure Internal Consumption(5420204e-eb35-48aa-bcac-91e2253fbb79)'
+    KeyVaultName: 'onMSCredentials'
+    SecretsFilter: 'username,password'
+  displayName: 'Create tools directory $(username)'
+
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
