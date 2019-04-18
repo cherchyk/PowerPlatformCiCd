@@ -65,10 +65,12 @@ steps:
       "/action: Pack", `
       "/zipfile: $(Build.ArtifactStagingDirectory)\packedSolution\$env:SolutionName.zip", `
       "/folder: $env:SolutionPath", `
+      "/map: $env:MapFile", `
       "/packagetype: Unmanaged" `
     -Wait `
     -NoNewWindow
   env:
+    MapFile: $(solution.mapFile)
     SolutionPath: $(solution.path)
     SolutionName: $(solution.name)
   displayName: 'Solution Packager: pack solution'
