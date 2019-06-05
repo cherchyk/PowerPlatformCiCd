@@ -119,3 +119,4 @@ steps:
     ServiceAccountUpn: $(serviceAccount.upn)
     ServiceAccountPassword: $(serviceAccount.password)
   displayName: 'Import solution'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
