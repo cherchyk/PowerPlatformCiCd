@@ -5,6 +5,7 @@
 *.user
 *.vspscc
 *.vssscc
+*.lnk
 .nuget
 .vs
 bin
