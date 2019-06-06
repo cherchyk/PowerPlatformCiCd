@@ -5,6 +5,7 @@
 *.user
 *.vspscc
 *.vssscc
+*.lnk
 .nuget
 .vs
 bin
@@ -15,3 +16,4 @@ packages
 /SolutionPackage/spkl
 /WebResources/spkl
 *.txt
+TestResults

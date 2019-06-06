@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- feature/*
 
 pool:
   vmImage: 'VS2017-Win2016'
@@ -28,11 +29,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-#- task: VSTest@2
-#  inputs:
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
-
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+  displayName: 'Run VSTest'
 
 ###############################
 ###############################
@@ -81,6 +82,7 @@ steps:
 
 #Publish build artifacts
 - task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: drop
@@ -117,3 +119,4 @@ steps:
     ServiceAccountUpn: $(serviceAccount.upn)
     ServiceAccountPassword: $(serviceAccount.password)
   displayName: 'Import solution'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
