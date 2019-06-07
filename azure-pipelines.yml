@@ -12,7 +12,7 @@ trigger:
       - feature/*
 
 stages:
-- stage: BuildTestPackage_Stage
+- stage: BuildTestPackage Stage
   jobs:
 
   - job: BuildTestPackage_Job
@@ -117,9 +117,7 @@ stages:
         targetPath: $(Build.ArtifactStagingDirectory)
 
 
-- stage: Deploy_Stage
-  dependsOn: BuildTestPackage_Stage
-
+- stage: Deploy Stage
   jobs:
 
   - job: Deploy_Job
