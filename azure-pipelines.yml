@@ -12,7 +12,7 @@ trigger:
       - feature/*
 
 stages:
-- stage: BuildTestPackage_Stage
+- stage: BuildTestPackage
   jobs:
 
   - job: BuildTestPackage_Job
@@ -117,7 +117,7 @@ stages:
         targetPath: $(Build.ArtifactStagingDirectory)
 
 
-- stage: Deploy_Stage
+- stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
 
