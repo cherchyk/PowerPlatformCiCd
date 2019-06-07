@@ -16,8 +16,8 @@ stages:
   displayName: Build-Test-Package Stage
   jobs:
 
-  - job: BuildTestPackage_Job
-    displayName: BuildTestPackage Job
+  - job: BuildTestPackageJob
+    displayName: Build-Test-Package Job
 
     pool:
       vmImage: 'VS2017-Win2016'
@@ -121,8 +121,8 @@ stages:
   displayName: Deploy to Production Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: Deploy_Job
-    displayName: Deploy Job
+  - deployment: Deploy2Production_Job
+    displayName: Deploy to Production Job
     pool:
       vmImage: 'VS2017-Win2016'
     environment: Production
