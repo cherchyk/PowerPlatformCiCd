@@ -12,10 +12,12 @@ trigger:
       - feature/*
 
 stages:
-- stage: BuildTestPackage
+- stage: BuildTestPackageStage
+  displayName: BuildTestPackage Stage
   jobs:
 
   - job: BuildTestPackage_Job
+    displayName: BuildTestPackage Job
 
     pool:
       vmImage: 'VS2017-Win2016'
@@ -117,12 +119,13 @@ stages:
         targetPath: $(Build.ArtifactStagingDirectory)
 
 
-- stage: Deploy
+- stage: DeployStage
+  displayName: Deploy Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
 
   - deployment: Deploy_Job
-
+    displayName: Deploy Job
     pool:
       vmImage: 'VS2017-Win2016'
 
