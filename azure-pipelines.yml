@@ -29,10 +29,7 @@ stages:
 
     steps:
 
-    ###############################
     ############################### Build
-    ###############################
-    ###############################
 
     - task: NuGetToolInstaller@0
 
@@ -48,10 +45,7 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
-    ###############################
     ############################### TEST
-    ###############################
-    ###############################
 
     - task: VSTest@2
       condition: succeeded()
@@ -60,10 +54,7 @@ stages:
         configuration: '$(buildConfiguration)'
       displayName: 'Run VSTest'
 
-    ###############################
     ############################### Package
-    ###############################
-    ###############################
 
     - script: md tools
       condition: succeeded()
@@ -119,30 +110,26 @@ stages:
         targetPath: $(Build.ArtifactStagingDirectory)
 
 
-- stage: DeployStage
-  displayName: Deploy Stage
+
+
+
+
+
+
+
+- stage: Deploy2ProductionStage
+  displayName: Deploy to Production Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-
   - deployment: Deploy_Job
     displayName: Deploy Job
     pool:
       vmImage: 'VS2017-Win2016'
-
-    variables:
-      solution: '**/*.sln'
-      buildPlatform: 'Any CPU'
-      buildConfiguration: 'Release'
-
-
-
     environment: Production
     strategy:
       runOnce:
         deploy:
-
           steps:
-
           - checkout: none
 
           #Import solution into target environment
