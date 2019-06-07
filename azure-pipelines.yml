@@ -4,8 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
-- feature/*
+  branches:
+    include:
+      - master
+      - feature/*
 
 stages:
 - stage: BuildTestPackage_Stage
