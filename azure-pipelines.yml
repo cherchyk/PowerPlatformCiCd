@@ -13,7 +13,7 @@ trigger:
 
 stages:
 - stage: BuildTestPackageStage
-  displayName: BuildTestPackage Stage
+  displayName: Build-Test-Package Stage
   jobs:
 
   - job: BuildTestPackage_Job
