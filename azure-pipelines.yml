@@ -109,7 +109,6 @@ stages:
         pathtoPublish: $(Build.ArtifactStagingDirectory)
         artifactName: drop
       displayName: 'Publish build artifacts'
-      condition: succeeded()
 
     #Import solution into target environment
     - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
