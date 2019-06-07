@@ -3,120 +3,158 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
+name: $(TeamProject)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
 trigger:
-- master
-- feature/*
+  branches:
+    include:
+      - master
+      - feature/*
 
-pool:
-  vmImage: 'VS2017-Win2016'
+stages:
+- stage: BuildTestPackageStage
+  displayName: Build-Test-Package Stage
+  jobs:
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  - job: BuildTestPackageJob
+    displayName: Build-Test-Package Job
 
-steps:
+    pool:
+      vmImage: 'VS2017-Win2016'
 
-- task: NuGetToolInstaller@0
+    variables:
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+    steps:
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    ############################### Build
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-  displayName: 'Run VSTest'
+    - task: NuGetToolInstaller@0
 
-###############################
-###############################
-###############################
-###############################
+    - task: NuGetCommand@2
+      condition: succeeded()
+      inputs:
+        restoreSolution: '$(solution)'
 
-- script: md tools
-  displayName: 'Create tools directory'
+    - task: VSBuild@1
+      condition: succeeded()
+      inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-- powershell: |
-    Invoke-WebRequest `
-      -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe `
-      -OutFile tools\\nuget.exe
-  displayName: 'Download nuget.exe'
+    ############################### TEST
 
-- powershell: |
-    tools\\nuget.exe install Microsoft.CrmSdk.CoreTools -O tools
-    md "tools\\CoreTools"
-    $coreToolsFolder = Get-ChildItem tools | Where-Object {$_.Name -match 'Microsoft.CrmSdk.CoreTools.'}
-    move "tools\\$coreToolsFolder\\content\\bin\\coretools\\*.*" "tools\\CoreTools"
-    Remove-Item "tools\\$coreToolsFolder" -Force -Recurse
-  displayName: 'Install CoreTools'
-  
+    - task: VSTest@2
+      condition: succeeded()
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+      displayName: 'Run VSTest'
+
+    ############################### Package
+
+    - script: md tools
+      condition: succeeded()
+      displayName: 'Create tools directory'
+
+#    - powershell: |
+#        Invoke-WebRequest `
+#          -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe `
+#          -OutFile tools\\nuget.exe
+#      displayName: 'Download nuget.exe'
+
+    - powershell: |
+        nuget install Microsoft.CrmSdk.CoreTools -O tools
+        md "tools\\CoreTools"
+        $coreToolsFolder = Get-ChildItem tools | Where-Object {$_.Name -match 'Microsoft.CrmSdk.CoreTools.'}
+        move "tools\\$coreToolsFolder\\content\\bin\\coretools\\*.*" "tools\\CoreTools"
+        Remove-Item "tools\\$coreToolsFolder" -Force -Recurse
+      displayName: 'Install CoreTools'
+      condition: succeeded()
+
+    #Pack Solution from repository
+    # .\bin\coretools\SolutionPackager.exe /action Pack /packagetype Unmanaged /zipfile .\contoso.zip /folder .\package /map: map.xml
+    - powershell: |
+        Start-Process tools/CoreTools/SolutionPackager.exe `
+        -ArgumentList `
+          "/action: Pack", `
+          "/zipfile: $(Build.ArtifactStagingDirectory)\$env:SolutionName.zip", `
+          "/folder: $env:SolutionPath", `
+          "/map: $env:MapFile", `
+          "/packagetype: $env:PackageType" `
+        -Wait `
+        -NoNewWindow
+      env:
+        MapFile: $(solution.mapFile)
+        SolutionPath: $(solution.path)
+        SolutionName: $(solution.name)
+        PackageType: $(solution.packagetype)
+      displayName: 'Solution Packager: pack solution'
+      condition: succeeded()
+
+    #Publish build artifacts
+    #- task: PublishBuildArtifacts@1
+    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #  inputs:
+    #    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    #    artifactName: drop
+    #  displayName: 'Publish build artifacts'
+
+    - task: PublishPipelineArtifact@0
+      condition: succeeded()
+      inputs:
+        artifactName: 'package'
+        targetPath: $(Build.ArtifactStagingDirectory)
 
 
-#Pack Solution from repository
-# .\bin\coretools\SolutionPackager.exe /action Pack /packagetype Unmanaged /zipfile .\contoso.zip /folder .\package /map: map.xml
-- powershell: |
-    Start-Process tools/CoreTools/SolutionPackager.exe `
-    -ArgumentList `
-      "/action: Pack", `
-      "/zipfile: $(Build.ArtifactStagingDirectory)\packedSolution\$env:SolutionName.zip", `
-      "/folder: $env:SolutionPath", `
-      "/map: $env:MapFile", `
-      "/packagetype: Unmanaged" `
-    -Wait `
-    -NoNewWindow
-  env:
-    MapFile: $(solution.mapFile)
-    SolutionPath: $(solution.path)
-    SolutionName: $(solution.name)
-  displayName: 'Solution Packager: pack solution'
 
 
 
 
-#Publish build artifacts
-- task: PublishBuildArtifacts@1
+
+
+
+- stage: Deploy2ProductionStage
+  displayName: Deploy to Production Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: drop
-  displayName: 'Publish build artifacts'
+  jobs:
+  - deployment: Deploy2Production_Job
+    displayName: Deploy to Production Job
+    pool:
+      vmImage: 'VS2017-Win2016'
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
 
+          #Import solution into target environment
+          - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+            displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+            condition: succeeded()
 
+          #Connect to CRM and Import
+          - powershell: |
+              $connection = Get-CrmConnection `
+                -ConnectionString `
+                  ("AuthType = Office365;" + `
+                  "Username = $env:ServiceAccountUpn;" + `
+                  "Password = $env:ServiceAccountPassword;" + `
+                  "Url = https://$env:EnvironmentUrl")
 
-
-
-
-#Import solution into target environment
-- powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-  displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-
-
-#Connect to CRM and Import
-- powershell: |
-    $connection = Get-CrmConnection `
-      -ConnectionString `
-        ("AuthType = Office365;" + `
-        "Username = $env:ServiceAccountUpn;" + `
-        "Password = $env:ServiceAccountPassword;" + `
-        "Url = https://$env:EnvironmentUrl")
-
-    #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
-    Import-CrmSolution `
-      -conn $connection `
-      -SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName).zip
-      #-SolutionFilePath $(Build.ArtifactStagingDirectory)\packedSolution\$($env:SolutionName)_managed.zip
-      #-MaxWaitTimeInSeconds 1500
-  env:
-    EnvironmentUrl: $(environment.url)
-    SolutionName: $(solution.name)
-    ServiceAccountUpn: $(serviceAccount.upn)
-    ServiceAccountPassword: $(serviceAccount.password)
-  displayName: 'Import solution'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+              #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+              Import-CrmSolution `
+                -conn $connection `
+                -SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName).zip
+                #-MaxWaitTimeInSeconds 1500
+            env:
+              EnvironmentUrl: $(environment.url)
+              SolutionName: $(solution.name)
+              ServiceAccountUpn: $(serviceAccount.upn)
+              ServiceAccountPassword: $(serviceAccount.password)
+            displayName: 'Import solution'
+            condition: succeeded()
