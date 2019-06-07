@@ -108,8 +108,8 @@ stages:
     - task: PublishPipelineArtifact@0
       condition: succeeded()
       inputs:
-        artifactName: 'artifactName'
-        targetPath: $(Build.ArtifactStagingDirectory)
+        artifactName: 'package'
+        targetPath: '/'
 
 
 - stage: Deploy_Stage
