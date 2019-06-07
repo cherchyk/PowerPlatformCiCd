@@ -147,7 +147,6 @@ stages:
         Import-CrmSolution `
           -conn $connection `
           -SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName).zip
-          #-SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName)_managed.zip
           #-MaxWaitTimeInSeconds 1500
       env:
         EnvironmentUrl: $(environment.url)
