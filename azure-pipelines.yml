@@ -8,10 +8,10 @@ trigger:
 - feature/*
 
 stages:
-- stage: BuildTestPackageDeploy_Stage
+- stage: BuildTestPackage_Stage
   jobs:
 
-  - job: BuildTestPackageDeploy_Job
+  - job: BuildTestPackage_Job
 
     pool:
       vmImage: 'VS2017-Win2016'
@@ -97,18 +97,36 @@ stages:
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
 
-    ###############################
-    ############################### Deploy
-    ###############################
-    ###############################
-
     #Publish build artifacts
-    - task: PublishBuildArtifacts@1
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #- task: PublishBuildArtifacts@1
+    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #  inputs:
+    #    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    #    artifactName: drop
+    #  displayName: 'Publish build artifacts'
+
+    - task: PublishPipelineArtifact@0
+      condition: succeeded()
       inputs:
-        pathtoPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: drop
-      displayName: 'Publish build artifacts'
+        artifactName: 'artifactName'
+        targetPath: $(Build.ArtifactStagingDirectory)
+
+
+- stage: Deploy_Stage
+  dependsOn: BuildTestPackage_Stage
+  jobs:
+
+  - job: Deploy_Job
+
+    pool:
+      vmImage: 'VS2017-Win2016'
+
+    variables:
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
 
     #Import solution into target environment
     - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
