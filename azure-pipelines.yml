@@ -117,7 +117,7 @@ stages:
         targetPath: $(Build.ArtifactStagingDirectory)
 
 
-- stage: Deploy Stage
+- stage: Deploy_Stage
   jobs:
 
   - job: Deploy_Job
