@@ -133,7 +133,7 @@ stages:
 
 
 
-    environment: string
+    environment: Production
     strategy:
       runOnce:
         deploy:
