@@ -23,30 +23,44 @@ stages:
 
     steps:
 
+    ###############################
+    ############################### Build
+    ###############################
+    ###############################
+
     - task: NuGetToolInstaller@0
 
     - task: NuGetCommand@2
+      condition: succeeded()
       inputs:
         restoreSolution: '$(solution)'
 
     - task: VSBuild@1
+      condition: succeeded()
       inputs:
         solution: '$(solution)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
+    ###############################
+    ############################### TEST
+    ###############################
+    ###############################
+
     - task: VSTest@2
+      condition: succeeded()
       inputs:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
       displayName: 'Run VSTest'
 
     ###############################
-    ###############################
+    ############################### Package
     ###############################
     ###############################
 
     - script: md tools
+      condition: succeeded()
       displayName: 'Create tools directory'
 
 #    - powershell: |
@@ -62,8 +76,7 @@ stages:
         move "tools\\$coreToolsFolder\\content\\bin\\coretools\\*.*" "tools\\CoreTools"
         Remove-Item "tools\\$coreToolsFolder" -Force -Recurse
       displayName: 'Install CoreTools'
-      
-
+      condition: succeeded()
 
     #Pack Solution from repository
     # .\bin\coretools\SolutionPackager.exe /action Pack /packagetype Unmanaged /zipfile .\contoso.zip /folder .\package /map: map.xml
@@ -82,9 +95,12 @@ stages:
         SolutionPath: $(solution.path)
         SolutionName: $(solution.name)
       displayName: 'Solution Packager: pack solution'
+      condition: succeeded()
 
-
-
+    ###############################
+    ############################### Deploy
+    ###############################
+    ###############################
 
     #Publish build artifacts
     - task: PublishBuildArtifacts@1
@@ -93,16 +109,12 @@ stages:
         pathtoPublish: $(Build.ArtifactStagingDirectory)
         artifactName: drop
       displayName: 'Publish build artifacts'
-
-
-
-
-
+      condition: succeeded()
 
     #Import solution into target environment
     - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
       displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-
+      condition: succeeded()
 
     #Connect to CRM and Import
     - powershell: |
