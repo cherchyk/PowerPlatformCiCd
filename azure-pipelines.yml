@@ -115,43 +115,42 @@ stages:
 
 - stage: Deploy_Stage
   dependsOn: BuildTestPackage_Stage
-  jobs:
 
-  - job: Deploy_Job
+  pool:
+    vmImage: 'VS2017-Win2016'
 
-    pool:
-      vmImage: 'VS2017-Win2016'
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
 
-    variables:
-      solution: '**/*.sln'
-      buildPlatform: 'Any CPU'
-      buildConfiguration: 'Release'
+  steps:
 
-    steps:
+  - checkout: none
 
-    #Import solution into target environment
-    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-      displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-      condition: succeeded()
+  #Import solution into target environment
+  - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+    displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+    condition: succeeded()
 
-    #Connect to CRM and Import
-    - powershell: |
-        $connection = Get-CrmConnection `
-          -ConnectionString `
-            ("AuthType = Office365;" + `
-            "Username = $env:ServiceAccountUpn;" + `
-            "Password = $env:ServiceAccountPassword;" + `
-            "Url = https://$env:EnvironmentUrl")
+  #Connect to CRM and Import
+  - powershell: |
+      $connection = Get-CrmConnection `
+        -ConnectionString `
+          ("AuthType = Office365;" + `
+          "Username = $env:ServiceAccountUpn;" + `
+          "Password = $env:ServiceAccountPassword;" + `
+          "Url = https://$env:EnvironmentUrl")
 
-        #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
-        Import-CrmSolution `
-          -conn $connection `
-          -SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName).zip
-          #-MaxWaitTimeInSeconds 1500
-      env:
-        EnvironmentUrl: $(environment.url)
-        SolutionName: $(solution.name)
-        ServiceAccountUpn: $(serviceAccount.upn)
-        ServiceAccountPassword: $(serviceAccount.password)
-      displayName: 'Import solution'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+      Import-CrmSolution `
+        -conn $connection `
+        -SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName).zip
+        #-MaxWaitTimeInSeconds 1500
+    env:
+      EnvironmentUrl: $(environment.url)
+      SolutionName: $(solution.name)
+      ServiceAccountUpn: $(serviceAccount.upn)
+      ServiceAccountPassword: $(serviceAccount.password)
+    displayName: 'Import solution'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
