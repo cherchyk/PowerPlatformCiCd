@@ -87,13 +87,14 @@ stages:
           "/zipfile: $(Build.ArtifactStagingDirectory)\$env:SolutionName.zip", `
           "/folder: $env:SolutionPath", `
           "/map: $env:MapFile", `
-          "/packagetype: Unmanaged" `
+          "/packagetype: $env:PackageType" `
         -Wait `
         -NoNewWindow
       env:
         MapFile: $(solution.mapFile)
         SolutionPath: $(solution.path)
         SolutionName: $(solution.name)
+        PackageType: $(solution.packagetype)
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
 
