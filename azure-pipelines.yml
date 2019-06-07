@@ -8,10 +8,10 @@ trigger:
 - feature/*
 
 stages:
-- stage: BuildTestPackageDeploy
+- stage: BuildTestPackageDeploy_Stage
   jobs:
 
-  - job: run_build
+  - job: BuildTestPackageDeploy_Job
 
     pool:
       vmImage: 'VS2017-Win2016'
