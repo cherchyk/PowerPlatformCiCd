@@ -12,7 +12,7 @@ trigger:
       - feature/*
 
 stages:
-- stage: BuildTestPackage Stage
+- stage: BuildTestPackage_Stage
   jobs:
 
   - job: BuildTestPackage_Job
