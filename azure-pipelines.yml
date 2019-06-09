@@ -111,12 +111,6 @@ stages:
 
 
 
-
-
-
-
-
-
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -131,6 +125,11 @@ stages:
         deploy:
           steps:
           - checkout: none
+
+          - task: DownloadPipelineArtifact@1
+            inputs:
+              artifactName: 'package'
+              targetPath: $(Build.ArtifactStagingDirectory)
 
           #Import solution into target environment
           - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
