@@ -38,7 +38,7 @@ namespace D365Saturday.Plugins.Tests
 			ctx.ExecutePluginWithTarget<PhoneCallCreatePlugin>(phoneCall);
 
 			var historyRecords = ctx.CreateQuery<ultra_phonecallhistory>().ToList();
-			Assert.Equal(1, historyRecords.Count);
+			Assert.Single(historyRecords);
 
 			var historyRecord = historyRecords.First();
 			Assert.Equal(phoneCall.PhoneNumber, historyRecord.ultra_phonenumber);
