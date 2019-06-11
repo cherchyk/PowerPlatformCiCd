@@ -63,9 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SamplePreCreate.cs" />
     <Compile Include="CrmPluginRegistrationAttribute.cs" />
+    <Compile Include="PhoneCallCreatePlugin.cs" />
+    <Compile Include="SamplePreCreate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypedEntities\GeneratedCode.cs" />
+    <Compile Include="TypedEntities\OptionSets.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\coretools\CrmSvcUtil.exe.config" />
