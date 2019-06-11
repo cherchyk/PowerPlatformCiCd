@@ -14,14 +14,6 @@ namespace D365Saturday.Plugins.Tests
 		[Fact]
 		public void Should_create_phone_call_history_on_create_of_a_phonecall_with_its_details()
 		{
-			//var ctx = new XrmFakedContext();
-			//Assert.True(false);
-
-
-			//Arrange ==> 
-			//Act  
-			//Assert ==>
-
 			var ctx = new XrmFakedContext();
 			var service = ctx.GetOrganizationService();
 
