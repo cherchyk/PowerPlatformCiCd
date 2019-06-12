@@ -1,7 +1,6 @@
 ### CONNECT
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 
-#Works
 $Global:CRMConn = Get-CrmConnection -InteractiveMode
 
 #$connectionHost = "https://cibc-hs-2.crm3.dynamics.com/"
