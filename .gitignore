@@ -8,6 +8,7 @@
 *.lnk
 .nuget
 .vs
+*.zip
 bin
 Deployment/Builds/
 obj
