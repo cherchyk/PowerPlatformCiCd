@@ -19,7 +19,7 @@ $MapFile = [System.IO.Path]::Combine($solutionDir, "SolutionPackage\map.xml")
 Write-Host "Map File:          " $MapFile -ForegroundColor Green
 
 
-& $SolutionPackager /action: Pack /zipfile: $slnZip /folder: $SolutionPath   /map: $MapFile  /packagetype: $PackageType
+& $SolutionPackager /action: Extract /zipfile: $slnZip /folder: $SolutionPath   /map: $MapFile  /packagetype: $PackageType
 
 
 ##########################################################################################
