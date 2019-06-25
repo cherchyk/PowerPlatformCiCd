@@ -343,7 +343,7 @@
           <IsDataSourceSecret>0</IsDataSourceSecret>
           <AutoNumberFormat></AutoNumberFormat>
           <Format>text</Format>
-          <MaxLength>4</MaxLength>
+          <MaxLength>5</MaxLength>
           <Length>200</Length>
           <displaynames>
             <displayname description="Value" languagecode="1033" />
