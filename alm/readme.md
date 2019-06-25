@@ -4,6 +4,8 @@ Set-ExecutionPolicy unrestricted
 
 
 	https://www.powershellgallery.com/packages/Microsoft.Xrm.Data.Powershell/
+	https://gallery.technet.microsoft.com/PowerShell-functions-for-16c5be31
+	
 	Save-Module -Name Microsoft.Xrm.Data.Powershell -Path <path>
 Install-Module -Name Microsoft.Xrm.Data.Powershell
 	Import-Module Microsoft.Xrm.Data.Powershell

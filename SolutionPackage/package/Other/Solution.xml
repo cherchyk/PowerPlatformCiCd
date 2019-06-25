@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.1.0.6027" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.1.0.6223" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>almdemo</UniqueName>
     <LocalizedNames>
@@ -79,6 +79,7 @@
     </Publisher>
     <RootComponents>
       <RootComponent type="1" schemaName="ms_sample" behavior="0" />
+      <RootComponent type="60" id="{bc509de5-966f-4057-aba3-e175aae10017}" behavior="0" />
       <RootComponent type="61" schemaName="dkdt_/sample.html" behavior="0" />
       <RootComponent type="62" schemaName="ms_SampleApp" behavior="0" />
       <RootComponent type="80" schemaName="ms_SampleApp" behavior="0" />

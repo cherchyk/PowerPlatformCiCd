@@ -7,4 +7,6 @@ $slnZip = [System.IO.Path]::Combine($solutionDir, "solution.zip")
 Write-Host "Solution file: " $slnZip -ForegroundColor Green
 
 Import-CrmSolution -conn $CRMConn -SolutionFilePath $slnZip
+
+Publish-CrmAllCustomization -conn $CRMConn
 ##########################################################################################
