@@ -107,37 +107,43 @@ In this Lab we will implement 1-3 steps.
 ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
 - In the navigation on the left click on `Repo` icon and then pick `Files`
 ![](doc-media/DevOps-RepoFiles.png '')
-- Note code highlighted in the next image.  You will need it in the next Exercise
-![](doc-media/DevOps-RemoteAdd.png '')
+- Note code highlighted in the next image.  You will need it in the next exercise
+![](doc-media/DevOps-RepoAdd.png '')
 
-## Exercise 3 - Load from Git
+## Exercise 3 - Prepare Initial Code
 
-
-- in Windows search type Git to find app click on `Git Bash` app
-![](doc-media/vm-openGit.png '')
-- In the console window we will execute commands to clone code from Lab repository to your personal repository. Execute one-by-one commands and keep console window open for later steps.
-  - `cd c:`
+- in Windows search type `Power Shell` to find app, right click on it and select `Run as administrator`
+![](doc-media/vm-openPS.png '')
+- In the PowerShell window we will execute commands to clone code from Lab repository to your personal repository. Execute commands and keep PowerShell window open for later steps.
+  - `cd c:\`
   - `git clone https://bocherch@dev.azure.com/bocherch/PowerPlatformCICDLab/_git/PowerPlatformCICDLab`
-  - `cd PowerPlatformCICDLab/`
+  - `cd .\PowerPlatformCICDLab\`
   - `git remote rm origin`
   - In this command replace URL_TO_YOUR_REPO with the url to your repo (red rectangle in image above) `git remote add origin URL_TO_YOUR_REPO`
   - `git push -u origin --all`
-  - `git checkout -b feature/newfeature`
-  - ########### delete `git push origin feature/newfeature`
+  - We will need this command in the next steps `git checkout -b feature/newfeature`
 
-## Exercise 2 - Compile code in Visual Studio
+## Exercise 4 - Prepare Import package
+
+- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder and press Ctrl + Shift + B to build it
+- Go back to PowerShell window and execute these commands:
+- `
+
+## Exercise 5 - Build and Deploy package to PowerPlatform
+
+- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder
+- Press Ctrl + Shift + B to build it
+
+
+## Exercise 6 - Make a change to entity via online UI
 
 abc
 
-## Exercise 3 - Make a change to entity via online UI
+## Exercise 7 - Load solution to local machine
 
 abc
 
-## Exercise 4 - Load solution to local machine
-
-abc
-
-## Exercise 5 - Add a bug
+## Exercise 8 - Add a bug
 
 abc
 
