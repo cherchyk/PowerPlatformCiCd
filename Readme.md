@@ -90,9 +90,15 @@ In this Lab we will implement 1-3 steps.
 
 # Exercises
 
+
 ## Exercise 1 - Create DevOps project
 
-- Log to your VM (use credentials from Lab details)
+- Log to your VM, please use credentials from Lab details.
+- Open `Visual Studio 19` from the desktop. As you load Visual Studio for the first time it will ask you for account details.  Please use Azure credentials from Lab details.
+
+## Exercise 2 - Create DevOps project
+
+
 - In browser of your choice navigate to https://dev.azure.com and log in by using your Azure credentials.
 - Click on `Sign in to Azure DevOps`.
 ![Development Streams](doc-media/DevOps-SignIn.png 'Development Streams')
@@ -104,24 +110,20 @@ In this Lab we will implement 1-3 steps.
 - Note code highlighted in the next image.  You will need it in the next Exercise
 ![](doc-media/DevOps-RemoteAdd.png '')
 
-## Exercise 1 - Load from Git
+## Exercise 3 - Load from Git
 
 
-- in Windows search type Git to and then click on `Git Bash` app
+- in Windows search type Git to find app click on `Git Bash` app
 ![](doc-media/vm-openGit.png '')
 - In the console window we will execute commands to clone code from Lab repository to your personal repository. Execute one-by-one commands and keep console window open for later steps.
   - `cd c:`
   - `git clone https://bocherch@dev.azure.com/bocherch/PowerPlatformCICDLab/_git/PowerPlatformCICDLab`
   - `cd PowerPlatformCICDLab/`
   - `git remote rm origin`
-  - `git remote add origin https://odluser72061@dev.azure.com/odluser72061/PowerPlatformCICD/_git/PowerPlatformCICD`
+  - In this command replace URL_TO_YOUR_REPO with the url to your repo (red rectangle in image above) `git remote add origin URL_TO_YOUR_REPO`
+  - `git push -u origin --all`
   - `git checkout -b feature/newfeature`
-  - `git push origin feature/newfeature`
-
-  
-
-
-Open File Explorer 
+  - ########### delete `git push origin feature/newfeature`
 
 ## Exercise 2 - Compile code in Visual Studio
 
