@@ -125,8 +125,8 @@ In this Lab we will implement 1-3 steps.
 
 ## Exercise 4 - Prepare Import package
 
-- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder and press Ctrl + Shift + B to build it
-- Go back to PowerShell window and execute these commands:
+- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder and build it
+- In PowerShell window execute these commands:
 - `
 
 ## Exercise 5 - Build and Deploy package to PowerPlatform
