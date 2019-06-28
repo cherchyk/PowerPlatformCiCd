@@ -90,7 +90,6 @@ In this Lab we will implement 1-3 steps.
 
 # Exercises
 
-
 ## Exercise 1 - Create DevOps project
 
 - Log to your VM, please use credentials from Lab details.
@@ -110,10 +109,10 @@ In this exercise we prepare Azure DevOps project.
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
 - In the navigation on the left click on `Repo` icon and then pick `Files`
 
-  ![](doc-media/DevOps-RepoFiles.png '')
+  ![Navigation](doc-media/DevOps-RepoFiles.png '')
 - Note code highlighted in the next image.  You will need it in the next exercise
 
-  ![](doc-media/DevOps-RepoAdd.png '')
+  ![New repo screen](doc-media/DevOps-RepoAdd.png '')
 
 ## Exercise 3 - Prepare Initial Code
 
@@ -121,7 +120,7 @@ In this exercise we clone code from lab repo and then push it to our personal re
 
 - in Windows search type `Power Shell` to find app, right click on it and select `Run as administrator`
 
-  ![](doc-media/vm-openPS.png '')
+  ![Open PS](doc-media/vm-openPS.png '')
 - In the PowerShell window we will execute commands to clone code from Lab repository to your personal repository. Execute commands and keep PowerShell window open for later steps.
   - `cd c:\`
   - `git clone https://bocherch@dev.azure.com/bocherch/PowerPlatformCICDLab/_git/PowerPlatformCICDLab`
@@ -139,16 +138,16 @@ In this exercise we build solution from source code, install required PowerShell
   In Visual Studio you can see that we have:
   - Plugins project - C# project for custom plugins
   - PluginsTest project - C# test project with unit tests for Plugins project
-  - SolutionOackage project - Folder structure with XML files that represents solution.
+  - SolutionPackage project - Folder structure with XML files that represents solution.
   - WebResources project - Project for static web resources.
 
 - In PowerShell window execute these commands:
   - `Set-ExecutionPolicy unrestricted` Select Option `A`
   - `Install-Module -Name Microsoft.Xrm.Data.Powershell` Select Option `A`
-  - To package project into importable package run `.\PowerShell\Pack.ps1`.  Ignore two warnings. 
+  - To package project into importable package run `.\PowerShell\Pack.ps1`.  Ignore two warnings.
 - Your screen should look like this.
 
-  ![](doc-media/vm-modules.png '')
+  ![PowerShell Modules](doc-media/vm-modules.png '')
 - After last command you have `solution.zip` in `C:\PowerPlatformCICDLab` folder.  This is the package that was build from code.
 
 ## Exercise 5 - Import solution package to Power Platform instance
@@ -169,13 +168,13 @@ In this exercise we connect to online instance and then import and publish solut
 
 In this exercise we change solution via PowerPlatform UI, then we load this change to our local repo.
 
-  - Login to your PowerPlatform instance. ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
-  - In PowerShell window execute `git checkout -b feature/newfeature`
-  - Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.
-  - Commit changes to remote repository:
-    - `git add .` - stage chnages
-    - `git commit -m 'our change'` - commit changes to local repo
-    - `git push origin feature/newfeature` - push changes to remote repo
+- Login to your PowerPlatform instance. ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+- In PowerShell window execute `git checkout -b feature/newfeature`
+- Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.
+- Commit changes to remote repository:
+  - `git add .` - stage changes
+  - `git commit -m 'our change'` - commit changes to local repo
+  - `git push origin feature/newfeature` - push changes to remote repo
 
 So far we demonstrated steps 1 and 2 from this diagram.
 
@@ -183,7 +182,16 @@ So far we demonstrated steps 1 and 2 from this diagram.
 
 ## Exercise 7 - Create Azure DevOps Pipeline
 
-In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit was to `master` branch then pipeline will also deploy package.
+In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package.
+
+- In Azure DevOps navigate to Pipeline Builds
+
+  ![PipelineBuilds](doc-media/DevOps-PipelineBuilds.png '')
+
+  On the new screen click `New pipeline`
+- In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
+- azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  It will fail on the second stage because we haven't provided pipeline variables yet.
+- Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
 
 ## Exercise 6 - Commit
 
