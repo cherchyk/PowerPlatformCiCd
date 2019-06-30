@@ -81,16 +81,13 @@ stages:
         Start-Process tools/CoreTools/SolutionPackager.exe `
         -ArgumentList `
           "/action: Pack", `
-          "/zipfile: $(Build.ArtifactStagingDirectory)\$env:SolutionName.zip", `
-          "/folder: $env:SolutionPath", `
-          "/map: $env:MapFile", `
+          "/zipfile: $(Build.ArtifactStagingDirectory)\solutionpackage.zip", `
+          "/folder: SolutionPackage/package/", `
+          "/map: SolutionPackage/map.xml", `
           "/packagetype: $env:PackageType" `
         -Wait `
         -NoNewWindow
       env:
-        MapFile: $(solution.mapFile)
-        SolutionPath: $(solution.path)
-        SolutionName: $(solution.name)
         PackageType: $(solution.packagetype)
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
@@ -148,13 +145,12 @@ stages:
               #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
               Import-CrmSolution `
                 -conn $connection `
-                -SolutionFilePath $(Build.ArtifactStagingDirectory)\$($env:SolutionName).zip
+                -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
                 #-MaxWaitTimeInSeconds
 
               Publish-CrmAllCustomization -conn $connection
             env:
               EnvironmentUrl: $(environment.url)
-              SolutionName: $(solution.name)
               ServiceAccountUpn: $(serviceAccount.upn)
               ServiceAccountPassword: $(serviceAccount.password)
             displayName: 'Import solution'

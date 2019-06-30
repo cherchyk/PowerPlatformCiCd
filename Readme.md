@@ -88,6 +88,12 @@ In this Lab we will implement 1-3 steps.
 
 # Requirements
 
+Lab environment:
+
+- Azure Subs with Devops
+- VM with VS19 + Git + PS
+- 2 PowerPlatform instances
+
 # Exercises
 
 ## Exercise 1 - Create DevOps project
@@ -192,6 +198,19 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 - In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
 - azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  It will fail on the second stage because we haven't provided pipeline variables yet.
 - Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
+
+![PipelineBuilds](doc-media/DevOps-Variables.png '')
+
+- Please add following variables:
+  - `environment.url` - use production url from Lab settings page
+  - `serviceAccount.password` - use production password from Lab settings page
+  - `serviceAccount.upn` - use production url from Lab settings page
+  - `solution.packagetype` Unmanaged
+
+system.definitionId
+8
+system.teamProject
+PowerPlatformCICDLab
 
 ## Exercise 6 - Commit
 
