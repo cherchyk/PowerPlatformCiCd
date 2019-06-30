@@ -164,7 +164,7 @@ In this exercise we connect to online instance and then import and publish solut
   
   ![Connect](doc-media/PP-Connect1.png 'Connect')
 
-  If you have more than one instance then you will see second screen where you need to select instance.
+  IN the list of available instances pick your *Development* instance.
 
   ![Connect](doc-media/PP-Connect2.png 'Connect')
 
@@ -202,15 +202,13 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 ![PipelineBuilds](doc-media/DevOps-Variables.png '')
 
 - Please add following variables:
-  - `environment.url` - use production url from Lab settings page
-  - `serviceAccount.password` - use production password from Lab settings page
-  - `serviceAccount.upn` - use production url from Lab settings page
-  - `solution.packagetype` Unmanaged
+  - `environment.url` - use *Production* url from Lab settings page
+  - `serviceAccount.password` - use *Production* password from Lab settings page
+  - `serviceAccount.upn` - use *Production* url from Lab settings page
+  - `solution.packagetype` - set it to `Unmanaged`.  This setting give you ability to deploy Unmanaged and Managed solution packages.
 
-system.definitionId
-8
-system.teamProject
-PowerPlatformCICDLab
+  `system.` variables are added by Azure DevOps environment
+- Click `Save and queue` and then pick your newly created branch `feature/newfeature`
 
 ## Exercise 6 - Commit
 
