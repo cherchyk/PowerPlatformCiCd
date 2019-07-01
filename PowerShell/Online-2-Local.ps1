@@ -1,5 +1,5 @@
 ### crm2local
-$solutionName = "almdemo"
+$solutionName = "samplesolution"
 
 $solutionDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, "..\"))
 #$slnZip = $solutionName + ".zip"

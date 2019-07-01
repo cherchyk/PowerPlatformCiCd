@@ -189,9 +189,12 @@ In this exercise we change solution via PowerPlatform UI, then we load this chan
 
 - Login to https://make.powerapps.com/ to modify solution.  Make sure you pick the Dev environment in the top right corner.
 
-- Navigate to `Solutions` and pick `Alm Demo`.  This is the solution we deployed from code.
+- Navigate to `Solutions` and drill into `Sample Solution`.  This is the solution we deployed from code.  Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.
 
   ![Solution Pick](doc-media/PP-SolutionPick.png 'Solution Pick')
+- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.  Save Entity and then `Publish all customizations` for solution.
+
+  ![Entity Change](doc-media/PP-EntityChange.png 'Entity Change')
 
 - In PowerShell window execute `git checkout -b feature/newfeature`
 - Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.1.0.6223" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
-    <UniqueName>almdemo</UniqueName>
+    <UniqueName>samplesolution</UniqueName>
     <LocalizedNames>
-      <LocalizedName description="Alm Demo" languagecode="1033" />
+      <LocalizedName description="Sample Solution" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
     <Version>0.0.0.1</Version>
