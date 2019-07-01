@@ -192,18 +192,22 @@ In this exercise we change solution via PowerPlatform UI, then we load this chan
 - Navigate to `Solutions` and drill into `Sample Solution`.  This is the solution we deployed from code.  Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.
 
   ![Solution Pick](doc-media/PP-SolutionPick.png 'Solution Pick')
-- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.  Save Entity and then `Publish all customizations` for solution.
+- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.  After change Save Entity and then `Publish all customizations` for solution.
 
   ![Entity Change](doc-media/PP-EntityChange.png 'Entity Change')
 
 - In PowerShell window execute `git checkout -b feature/newfeature`
-- Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.
+- Run `.\PowerShell\Online-2-Local.ps1` this loads solution file (zip) from online to your local folder.
+- Run `.\PowerShell\Extract.ps1` this extracts solution into folder structure.
+- If you run `git status` you will see what was changed.
 - Commit changes to remote repository:
+  - `git config --global user.email "you@example.com"` this and second commands are required when you start using Git
+  - `git config --global user.name "Your Name"`
   - `git add .` - stage changes
-  - `git commit -m 'our change'` - commit changes to local repo
+  - `git commit -m 'Exercise 6 change'` - commit changes to local repo
   - `git push origin feature/newfeature` - push changes to remote repo
 
-So far we demonstrated steps 1 and 2 from this diagram.
+At this point we demonstrated steps 1 and 2 from this diagram.
 
 ![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
 
