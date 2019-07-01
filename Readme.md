@@ -124,6 +124,9 @@ In this exercise we prepare Azure DevOps project.
 
   ![New repo screen](doc-media/DevOps-RepoAdd.png '')
 
+- In the rop right corner click on circle icon avatat and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
+
+
 ## Exercise 3 - Prepare Initial Code
 
 In this exercise we clone code from lab repository and then push it to our Azure DevOps repository.
@@ -260,3 +263,5 @@ In this exercise we verify continues deployment.  `azure-pipelines.yml` has step
   ![PR Navigation](doc-media/DevOps-PR-Nav.png 'PR Navigation')
 
   Then in the top right corner click `New pull request`
+
+- Pick `feature/newfeature` in `Select a source branch`.  Put any title and then click `Create`
