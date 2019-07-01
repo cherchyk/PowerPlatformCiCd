@@ -5,7 +5,7 @@
 
 ## Hands-on lab step-by-step
 
-June 2019
+July 2019
 
 # Contents
 
@@ -14,15 +14,16 @@ June 2019
 - [Solution architecture](#Solution-architecture)
 - [Requirements](#Requirements)
 - [Exercises](#Exercises)
-  - [Exercise 1 - Load from Git](#Exercise-1---Load-from-Git)
-  - [Exercise 2 - Compile code in Visual Studio](#Exercise-2---Compile-code-in-Visual-Studio)
-  - [Exercise 3 - Make a change to entity via online UI](#Exercise-3---Make-a-change-to-entity-via-online-UI)
-  - [Exercise 4 - Load solution to local machine](#Exercise-4---Load-solution-to-local-machine)
-  - [Exercise 5 - Add a bug](#Exercise-5---Add-a-bug)
-  - [Exercise 6 - Commit](#Exercise-6---Commit)
-  - [Exercise 7 - See the problem in Pipeline](#Exercise-7---See-the-problem-in-Pipeline)
-  - [Exercise 8 - Fix problem and commit fixed](#Exercise-8---Fix-problem-and-commit-fixed)
-  - [Exercise 9 - Merge with master and deploy](#Exercise-9---Merge-with-master-and-deploy)
+  - [Exercise 1 - Prepare VM](#Exercise-1---Prepare-VM)
+  - [Exercise 2 - Create DevOps project](#Exercise-2---Create-DevOps-project)
+  - [Exercise 3 - Prepare Initial Code](#Exercise-3---Prepare-Initial-Code)
+  - [Exercise 4 - Prepare solution package](#Exercise-4---Prepare-solution-package)
+  - [Exercise 5 - Import solution package to Power Platform instance](#Exercise-5---Import-solution-package-to-Power-Platform-instance)
+  - [Exercise 6 - Make a change to entity via online UI](#Exercise-6---Make-a-change-to-entity-via-online-UI)
+  - [Exercise 7 - Create Azure DevOps Pipeline](#Exercise-7---Create-Azure-DevOps-Pipeline)
+  - [Exercise 8 - Fixing Unit Test](#Exercise-8---Fixing-Unit-Test)
+  - [Exercise 9 - Pull request to master and deployment](#Exercise-9---Pull-request-to-master-and-deployment)
+- [Summary](#Summary)
 
 # Disclaimer
 
@@ -38,11 +39,11 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
 
 # Overview
 
-This lab will explain ALM (Application Lifecycle Management) and CI/CD for Power Platform.
+This lab explains ALM (Application Lifecycle Management) and CI/CD for Power Platform.
 
 ## Abstract
 
-Learn how to leverage Azure DevOps Pipelines in continuous integration and continuous delivery (CI/CD) for Power Platform Model Driven Apps - one of the most requested topics from our enterprise clients. This lab will cover configuration migration, automatic testing, automatic build and automatic deployment.
+Learn how to leverage Azure DevOps Pipelines in continuous integration and continuous delivery (CI/CD) for Power Platform Apps - one of the most requested topics from our enterprise clients. This lab covers configuration migration, automatic testing, automatic build and automatic deployment.
 
 ## Learning Objective
 
@@ -50,13 +51,13 @@ Learn how to effectively integrate development streams, test and deploy solution
 
 # Solution architecture
 
-Common development practice is when you have separate environments for Production, Staging/UAT, QA and Development.  When you have team working on some feature (Feature 1) then you also need feature specific instance and depending of what developers do you may also have developer specific instances.
+Common development practice is to have separate environments for Production, Staging/UAT, QA and Development.  When team of developers is working on some feature (Feature 1) then feature specific instance is also needed.  Developer specific instances are required too.
 
-The challenge is how to effectively integrate all development stream and then deliver result to all stages.
+The challenge is how to effectively integrate all development streams and then deliver results to next instances in the chain.
 
 ![Development Streams](doc-media/developmentStreams.png 'Development Streams')
 
-Let's review how development process looks like for team of two developers working on the same feature.
+Let's review how development process looks like for the team of two developers working on the same feature.
 
 ![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
 
@@ -84,22 +85,24 @@ Let's review how development process looks like for team of two developers worki
 
 56 – Test/Package/Deploy
 
-In this Lab we will implement 1-3 steps.
+In this Lab we implement 1-4 steps.
 
 # Requirements
 
 Lab environment:
 
-- Azure Subs with Devops
-- VM with VS19 + Git + PS
+- Azure Subscription with DevOps license
+- VM with VS19 + Git + PowerShell
 - 2 PowerPlatform instances
+  - `Dev` for Developer's needs
+  - `Feature` feature instance that integrates work from all in team.
 
 # Exercises
 
-## Exercise 1 - Create DevOps project
+## Exercise 1 - Prepare VM
 
-- Log to your VM, please use credentials from Lab details.
-- Open `Visual Studio 19` from the desktop. As you load Visual Studio for the first time it will ask you for account details.  Please use Azure credentials from Lab details.
+- Log to your VM, use credentials from Lab details.
+- Open `Visual Studio 19` from the desktop. As you load Visual Studio for the first time it asks for account details.  Please use Azure credentials from Lab details.
 
 ## Exercise 2 - Create DevOps project
 
@@ -109,37 +112,40 @@ In this exercise we prepare Azure DevOps project.
 - Click on `Sign in to Azure DevOps`.
 
   ![Development Streams](doc-media/DevOps-SignIn.png 'Development Streams')
-- Click `Continue` on "We need a few more details" and then on "Get started with Azure DevOps" pages.
+- Click `Continue` on "We need a few more details" and then click on `Get started with Azure DevOps` pages.
 - Pick a name for your private DevOps project.
 
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
-- In the navigation on the left click on `Repo` icon and then pick `Files`.
+- In the navigation on the left, click on `Repo` icon and then pick `Files`.
 
   ![Navigation](doc-media/DevOps-RepoFiles.png '')
 - Click on `default Lab repository` link.
 
-  Note highlighted code in the next image.  You will need it in the next exercise
+  Note highlighted code in the next image.  You will need it in the next exercise.
 
   ![New repo screen](doc-media/DevOps-RepoAdd.png '')
 
+- In the rop right corner click on circle icon avatat and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
+
+
 ## Exercise 3 - Prepare Initial Code
 
-In this exercise we clone code from lab repo and then push it to our personal repo.
+In this exercise we clone code from lab repository and then push it to our Azure DevOps repository.
 
-- in Windows search type `Power Shell` to find app, right click on it and select `Run as administrator`
+- In Windows Search type `Power Shell` to find app, right click on it and select `Run as administrator`
 
   ![Open PS](doc-media/vm-openPS.png '')
-- In the PowerShell window we will execute commands to clone code from Lab repository to your personal repository. Execute commands and keep PowerShell window open for later steps.
+- In the PowerShell window we will execute commands to clone code from Lab repository to your Azure DevOps repository. Execute commands and keep PowerShell window open for later exercises.
   - `cd c:\`
   - `git clone https://bocherch@dev.azure.com/bocherch/PowerPlatformCICDLab/_git/PowerPlatformCICDLab`
   - `cd .\PowerPlatformCICDLab\`
   - `git remote rm origin`
-  - In this command replace URL_TO_YOUR_REPO with the url to your repo (red rectangle in image above)
+  - In this command replace URL_TO_YOUR_REPO with the url to your repository (red rectangle in the image above)
   
     `git remote add origin URL_TO_YOUR_REPO`
   - `git push -u origin --all`
   
-    Here you will be asked for credentials.  Use your Azure credentials.
+    Here you will be asked for credentials.  Use Azure credentials from Lab details.
 
 ## Exercise 4 - Prepare solution package
 
@@ -160,56 +166,61 @@ In this exercise we build solution from source code, install required PowerShell
   - `Install-Module -Name Microsoft.Xrm.Data.Powershell`
   
     Select Option `A`
-  - To package project into importable package run `.\PowerShell\Pack.ps1`.  Ignore two warnings.
+  - To package project into importable package run `.\PowerShell\Pack.ps1`.  Ignore two warnings after execution.
 - Your screen should look like this.
 
   ![PowerShell Modules](doc-media/vm-modules.png '')
-- After last command you have `solution.zip` in `C:\PowerPlatformCICDLab` folder.  This is the package that was build from code.
+- After the last command you have `solution.zip` in `C:\PowerPlatformCICDLab` folder.  This is the package that was built from the source code.
 
 ## Exercise 5 - Import solution package to Power Platform instance
 
-In this exercise we connect to online instance and then import and publish solution package.
+In this exercise we connect to PowerPlatform *Development* instance and then import and publish the solution package.
 
-- Run `.\PowerShell\Connect.ps1` in order to connect to online instance.  Fill form same way just provide your Azure username and password and then click `Login`
+- Run `.\PowerShell\Connect.ps1` in order to connect to online instance.  Fill form the same way, just provide your Azure username and password and then click `Login`.
   
   ![Connect](doc-media/PP-Connect1.png 'Connect')
 
-  IN the list of available instances pick your *Development* instance.
+  In the list of available instances pick your *Development* instance.
 
   ![Connect](doc-media/PP-Connect2.png 'Connect')
 
-- Run `.\PowerShell\Local-2-Online.ps1`.  This power shell script will upload `solution.zip` to selected instance and then publish it.  This  script may run 2-4 minutes.
-- Login to your PowerPlatform Dev instance and validate that you have `Sample App`.  This is the application you deployed from code.
+- Run `.\PowerShell\Local-2-Online.ps1`.  This PowerShell script will upload `solution.zip` to selected instance and then publish it.  This script may run 2-4 minutes.
+- Login to your PowerPlatform *Development* instance and validate that you have `Sample App`.  This is the application you've just deployed.
 
   ![Sample App](doc-media/PP-SampleTile.png 'Sample App')
 
 ## Exercise 6 - Make a change to entity via online UI
 
-In this exercise we change solution via PowerPlatform UI, then we load this change to our local repo.
+In this exercise we change the solution via PowerPlatform UI, then we load changes to the local repository.
 
-- Login to https://make.powerapps.com/ to modify solution.  Make sure you pick the Dev environment in the top right corner.
+- Login to https://make.powerapps.com/ to modify solution.  Make sure you pick the *Development* environment in the top right corner.
 
-- Navigate to `Solutions` and drill into `Sample Solution`.  This is the solution we deployed from code.  Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.
+- Navigate to `Solutions` and drill into `Sample Solution`.  This is the solution we deployed from the source code.  
 
   ![Solution Pick](doc-media/PP-SolutionPick.png 'Solution Pick')
-- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.  Save Entity and then `Publish all customizations` for solution.
+
+- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of the Value field.  Save Entity and then `Publish all customizations` for the solution.
 
   ![Entity Change](doc-media/PP-EntityChange.png 'Entity Change')
 
 - In PowerShell window execute `git checkout -b feature/newfeature`
-- Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.
+- Run `.\PowerShell\Online-2-Local.ps1` this loads solution file (zip) from online to your local folder.
+- Run `.\PowerShell\Extract.ps1` this extracts solution into folder structure.
+- If you run `git status` you will see what was changed.
 - Commit changes to remote repository:
+  - `git config --global user.email "you@example.com"` this and the second commands are required when you start using Git
+  - `git config --global user.name "Your Name"`
   - `git add .` - stage changes
-  - `git commit -m 'our change'` - commit changes to local repo
-  - `git push origin feature/newfeature` - push changes to remote repo
+  - `git commit -m 'Exercise 6 change'` - commit changes to local repository
+  - `git push origin feature/newfeature` - push changes to remote repository
 
-So far we demonstrated steps 1 and 2 from this diagram.
+At this point we demonstrated steps 1 and 2 from this diagram.
 
 ![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
 
 ## Exercise 7 - Create Azure DevOps Pipeline
 
-In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package.
+In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package to `Feature` PowerPlatform instance.  In order for pipeline to "know" where to deploy we use pipeline variables.
 
 - In Azure DevOps navigate to Pipeline Builds
 
@@ -217,32 +228,63 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 
   On the new screen click `New pipeline`
 - In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
-- azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  It will fail on the second stage because we haven't provided pipeline variables yet.
-- Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
+- `azure-pipelines.yml` is pulled from repository for your review.  Click `Run` to finish creating pipeline.  Pipeline starts immediately on `Master` branch.  Pipeline will fail on the first stage because of failing unit test.  We will fix unit tests in the next exercise.
+- To finish setting up the pipeline we need to set pipeline variables.
 
-![PipelineBuilds](doc-media/DevOps-Variables.png '')
+  Navigate again to the Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
 
-- Please add following variables:
+  ![Pipeline Builds](doc-media/DevOps-Variables.png 'Pipeline Builds')
+
+- Please add the following variables:
   - `environment.url` - use *Production* url from Lab settings page
   - `serviceAccount.password` - use *Production* password from Lab settings page
   - `serviceAccount.upn` - use *Production* url from Lab settings page
-  - `solution.packagetype` - set it to `Unmanaged`.  This setting give you ability to deploy Unmanaged and Managed solution packages.
+  - `solution.packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
 
-  `system.` variables are added by Azure DevOps environment
+  `system.` variables are added by Azure DevOps system.
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`
 
-## Exercise 6 - Commit
+- Click on Branches in left navigation and after page is loaded click on three dots for `master` branch row.  Then click `Branch policies`
 
-abc
+  ![Branch Policy](doc-media/DevOps-BranchPolicy.png 'Branch Policy')
+- In the newly loaded window click `Add build policy.
+- In the sliding `Add build policy` form select your pipeline for `Build pipeline` and then click Save
 
-## Exercise 7 - See the problem in Pipeline
+## Exercise 8 - Fixing Unit Test
 
-abc
+In the previous exercise we created a pipeline and it detected that one of our tests is failing.  We are going to fix it now.  Failing demonstrates how the branch wll be automatically tested in the future.
 
-## Exercise 8 - Fix problem and commit fixed
+- Open `.\PluginsTest\SamplePreCreateTests.cs` file and change `Assert.False(true);` to `Assert.False(false);`.  In this lab we are not teaching how to write unit tests but we show how to build infrastructure that builds code, tests code, packages it and then deploys.
+- Commit change to Azure DevOps repository
+  - `git add .`
+  - `git commit -b 'bag fix'`
+  - `git push origin feature/newfeature`
+- After pipeline job is finished you will see that first Stage of pipeline was completed successfully.  Second stage was skipped because it is a deployment stage that runs only when we push code to `master` branch.
 
-abc
+## Exercise 9 - Pull request to master and deployment
 
-## Exercise 9 - Merge with master and deploy
+In this exercise we verify continues deployment.  `azure-pipelines.yml` has steps that pipeline runs when branches are updated or when pull request is created.  Let's create a pull request that takes changes from `feature/newfeature` to `master`
 
-abc
+- In Azure DevOps navigate to Pull Requests
+
+  ![PR Navigation](doc-media/DevOps-PR-Nav.png 'PR Navigation')
+
+  Then in the top right corner click `New pull request`
+
+- Pick `feature/newfeature` in `Select a source branch`.  Put any title and then click `Create`
+
+- Click `Set auto-complete` to open `Enable automatic completion` form and then click `Set auto-complete`.  This step tells Azure DevOps to Complete pull request after successfully running the pipeline.
+
+- The last step is: Azure DevOps runs pipeline on newly updated master branch.  During this pipeline job second stage will be activated which deploys changes automatically to `Feature` branch.
+
+# Summary
+
+Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in future.  This significantly saves time and prevents from human errors.
+
+This Lab demonstrates 1-4 steps from this diagram
+
+![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
+
+All further steps are done in same pattern.
+
+For questions and comments please contact bohdan.cherchyk@microsoft.com
