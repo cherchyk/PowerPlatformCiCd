@@ -23,6 +23,7 @@ July 2019
   - [Exercise 7 - Create Azure DevOps Pipeline](#Exercise-7---Create-Azure-DevOps-Pipeline)
   - [Exercise 8 - Fixing Unit Test](#Exercise-8---Fixing-Unit-Test)
   - [Exercise 9 - Pull request to master and deployment](#Exercise-9---Pull-request-to-master-and-deployment)
+- [Summary](#Summary)
 
 # Disclaimer
 
@@ -243,6 +244,12 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
   `system.` variables are added by Azure DevOps system.
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`
 
+- Click on Branches in left navigation and after page is loaded click on three dots for `master` branch row.  Then click `Branch policies`
+
+  ![Branch Policy](doc-media/DevOps-BranchPolicy.png 'Branch Policy')
+- In the newly loaded window click `Add build policy.
+- In the sliding `Add build policy` form select your pipeline for `Build pipeline` and then click Save
+
 ## Exercise 8 - Fixing Unit Test
 
 In the previous exercise we created a pipeline and it detected that one of our tests is failing.  We are going to fix it now.  Failing demonstrates how the branch wll be automatically tested in the future.
@@ -265,3 +272,19 @@ In this exercise we verify continues deployment.  `azure-pipelines.yml` has step
   Then in the top right corner click `New pull request`
 
 - Pick `feature/newfeature` in `Select a source branch`.  Put any title and then click `Create`
+
+- Click `Set auto-complete` to open `Enable automatic completion` form and then click `Set auto-complete`.  This step tells Azure DevOps to Complete pull request after successfully running the pipeline.
+
+- The last step is: Azure DevOps runs pipeline on newly updated master branch.  During this pipeline job second stage will be activated which deploys changes automatically to `Feature` branch.
+
+# Summary
+
+Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in future.  This significantly saves time and prevents from human errors.
+
+This Lab demonstrates 1-4 steps from this diagram
+
+![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
+
+All further steps are done in same pattern.
+
+For questions and comments please contact bohdan.cherchyk@microsoft.com
