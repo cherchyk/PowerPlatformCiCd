@@ -213,7 +213,7 @@ At this point we demonstrated steps 1 and 2 from this diagram.
 
 ## Exercise 7 - Create Azure DevOps Pipeline
 
-In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package.
+In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package to `Feature` PowerPlatform instance.  In order for pipeline to "know" where to deploy we will use pipeline variables.
 
 - In Azure DevOps navigate to Pipeline Builds
 
@@ -224,13 +224,9 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 - azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  Pipeline will fail on the first stage because of failing unit test.  We will fix unit tests in the next exercise.
 - To finish setting up pipeline we need to set pipeline variables.
 
-  In this Lab we will implement continues delivery for Master branch.  Every time Master branch is updated we will deploy it to `Feature` PowerPlatform instance.
+  Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
 
-  We need to provide credential details so pipeline "knows" where to deploy.
-
-Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
-
-![PipelineBuilds](doc-media/DevOps-Variables.png '')
+  ![PipelineBuilds](doc-media/DevOps-Variables.png '')
 
 - Please add following variables:
   - `environment.url` - use *Production* url from Lab settings page
@@ -240,6 +236,8 @@ Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml sour
 
   `system.` variables are added by Azure DevOps environment
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`
+
+  As 
 
 ## Exercise 6 - Commit
 
