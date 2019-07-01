@@ -221,8 +221,14 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 
   On the new screen click `New pipeline`
 - In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
-- azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  It will fail on the second stage because we haven't provided pipeline variables yet.
-- Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
+- azure-pipelines.yml will be pulled from repo for your review.  Click `Run` to finish creating pipeline.  Pipeline will start immediately on `Master` branch.  Pipeline will fail on the first stage because of failing unit test.  We will fix unit tests in the next exercise.
+- To finish setting up pipeline we need to set pipeline variables.
+
+  In this Lab we will implement continues delivery for Master branch.  Every time Master branch is updated we will deploy it to `Feature` PowerPlatform instance.
+
+  We need to provide credential details so pipeline "knows" where to deploy.
+
+Navigate again to Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
 
 ![PipelineBuilds](doc-media/DevOps-Variables.png '')
 

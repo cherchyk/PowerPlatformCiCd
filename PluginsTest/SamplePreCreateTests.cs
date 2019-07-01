@@ -9,7 +9,7 @@ namespace PluginsTest
 		[Fact]
 		public void TestMethod1()
 		{
-			Assert.False(true);
+			Assert.False(false);
 		}
 	}
 }
