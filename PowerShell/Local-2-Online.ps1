@@ -8,5 +8,10 @@ Write-Host "Solution file: " $slnZip -ForegroundColor Green
 
 Import-CrmSolution -conn $CRMConn -SolutionFilePath $slnZip
 
+Write-Host "Publishing"
+
 Publish-CrmAllCustomization -conn $CRMConn
+
+Write-Host "..."
+Write-Host "Completed"
 ##########################################################################################

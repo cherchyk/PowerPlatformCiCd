@@ -113,10 +113,12 @@ In this exercise we prepare Azure DevOps project.
 - Pick a name for your private DevOps project.
 
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
-- In the navigation on the left click on `Repo` icon and then pick `Files`
+- In the navigation on the left click on `Repo` icon and then pick `Files`.
 
   ![Navigation](doc-media/DevOps-RepoFiles.png '')
-- Note code highlighted in the next image.  You will need it in the next exercise
+- Click on `default Lab repository` link.
+
+  Note highlighted code in the next image.  You will need it in the next exercise
 
   ![New repo screen](doc-media/DevOps-RepoAdd.png '')
 
@@ -132,8 +134,12 @@ In this exercise we clone code from lab repo and then push it to our personal re
   - `git clone https://bocherch@dev.azure.com/bocherch/PowerPlatformCICDLab/_git/PowerPlatformCICDLab`
   - `cd .\PowerPlatformCICDLab\`
   - `git remote rm origin`
-  - In this command replace URL_TO_YOUR_REPO with the url to your repo (red rectangle in image above) `git remote add origin URL_TO_YOUR_REPO`
+  - In this command replace URL_TO_YOUR_REPO with the url to your repo (red rectangle in image above)
+  
+    `git remote add origin URL_TO_YOUR_REPO`
   - `git push -u origin --all`
+  
+    Here you will be asked for credentials.  Use your Azure credentials.
 
 ## Exercise 4 - Prepare solution package
 
@@ -148,8 +154,12 @@ In this exercise we build solution from source code, install required PowerShell
   - WebResources project - Project for static web resources.
 
 - In PowerShell window execute these commands:
-  - `Set-ExecutionPolicy unrestricted` Select Option `A`
-  - `Install-Module -Name Microsoft.Xrm.Data.Powershell` Select Option `A`
+  - `Set-ExecutionPolicy unrestricted`
+  
+    Select Option `A`
+  - `Install-Module -Name Microsoft.Xrm.Data.Powershell`
+  
+    Select Option `A`
   - To package project into importable package run `.\PowerShell\Pack.ps1`.  Ignore two warnings.
 - Your screen should look like this.
 
@@ -164,17 +174,28 @@ In this exercise we connect to online instance and then import and publish solut
   
   ![Connect](doc-media/PP-Connect1.png 'Connect')
 
-  If you have more than one instance then you will see second screen where you need to select instance.
+  IN the list of available instances pick your *Development* instance.
 
   ![Connect](doc-media/PP-Connect2.png 'Connect')
 
 - Run `.\PowerShell\Local-2-Online.ps1`.  This power shell script will upload `solution.zip` to selected instance and then publish it.  This  script may run 2-4 minutes.
+- Login to your PowerPlatform Dev instance and validate that you have `Sample App`.  This is the application you deployed from code.
+
+  ![Sample App](doc-media/PP-SampleTile.png 'Sample App')
 
 ## Exercise 6 - Make a change to entity via online UI
 
 In this exercise we change solution via PowerPlatform UI, then we load this change to our local repo.
 
-- Login to your PowerPlatform instance. ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+- Login to https://make.powerapps.com/ to modify solution.  Make sure you pick the Dev environment in the top right corner.
+
+- Navigate to `Solutions` and drill into `Sample Solution`.  This is the solution we deployed from code.  Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.
+
+  ![Solution Pick](doc-media/PP-SolutionPick.png 'Solution Pick')
+- Do some changes withing this solution.  For example you can modify Sample entity.  The fast change would be to change the length of Value field.  Save Entity and then `Publish all customizations` for solution.
+
+  ![Entity Change](doc-media/PP-EntityChange.png 'Entity Change')
+
 - In PowerShell window execute `git checkout -b feature/newfeature`
 - Run `.\PowerShell\Online-2-Local.ps1`.  This script will load solution from instance and unpack it to local folder structure.  You should see now what is changed if you run `git status`.
 - Commit changes to remote repository:
@@ -202,15 +223,13 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
 ![PipelineBuilds](doc-media/DevOps-Variables.png '')
 
 - Please add following variables:
-  - `environment.url` - use production url from Lab settings page
-  - `serviceAccount.password` - use production password from Lab settings page
-  - `serviceAccount.upn` - use production url from Lab settings page
-  - `solution.packagetype` Unmanaged
+  - `environment.url` - use *Production* url from Lab settings page
+  - `serviceAccount.password` - use *Production* password from Lab settings page
+  - `serviceAccount.upn` - use *Production* url from Lab settings page
+  - `solution.packagetype` - set it to `Unmanaged`.  This setting give you ability to deploy Unmanaged and Managed solution packages.
 
-system.definitionId
-8
-system.teamProject
-PowerPlatformCICDLab
+  `system.` variables are added by Azure DevOps environment
+- Click `Save and queue` and then pick your newly created branch `feature/newfeature`
 
 ## Exercise 6 - Commit
 
