@@ -117,7 +117,7 @@ In this exercise we prepare Azure DevOps project.
 
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
 
-- In the rop right corner click on circle icon avatat and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
+- In the rop right corner click on circle icon avatar and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
 
 - In the navigation on the left, click on `Repo` icon and then pick `Files`.
 
