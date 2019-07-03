@@ -138,8 +138,8 @@ stages:
               $connection = Get-CrmConnection `
                 -ConnectionString `
                   ("AuthType = Office365;" + `
-                  "Username = $env:ServiceAccountUpn;" + `
-                  "Password = $env:ServiceAccountPassword;" + `
+                  "Username = $env:EnvironmentUsername;" + `
+                  "Password = $env:EnvironmentPassword;" + `
                   "Url = https://$env:EnvironmentUrl")
 
               #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
@@ -151,7 +151,7 @@ stages:
               Publish-CrmAllCustomization -conn $connection
             env:
               EnvironmentUrl: $(environment.url)
-              ServiceAccountUpn: $(serviceAccount.upn)
-              ServiceAccountPassword: $(serviceAccount.password)
+              EnvironmentUsername: $(environment.username)
+              EnvironmentPassword: $(environment.password)
             displayName: 'Import solution'
             condition: succeeded()
