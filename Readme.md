@@ -250,7 +250,7 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
   `system.` variables are added by Azure DevOps system.
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`
 
-- Click on Branches in left navigation and after page is loaded click on three dots for `master` branch row.  Then click `Branch policies`
+- Click on Branches in left navigation and after page is loaded click on three dots for `master` branch row.  Then click `Branch policies`.  We are going to set a rule that pull requests to master must be followed by successful pipeline run.
 
   ![Branch Policy](doc-media/DevOps-BranchPolicy.png 'Branch Policy')
 - In the newly loaded window click `Add build policy.
