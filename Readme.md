@@ -116,17 +116,17 @@ In this exercise we prepare Azure DevOps project.
 - Pick a name for your private DevOps project.
 
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
+
+- In the rop right corner click on circle icon avatar and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
+
 - In the navigation on the left, click on `Repo` icon and then pick `Files`.
 
   ![Navigation](doc-media/DevOps-RepoFiles.png '')
-- Click on `default Lab repository` link.
+- Navigate to your `default <project name> repository` link.
 
   Note highlighted code in the next image.  You will need it in the next exercise.
 
   ![New repo screen](doc-media/DevOps-RepoAdd.png '')
-
-- In the rop right corner click on circle icon avatat and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
-
 
 ## Exercise 3 - Prepare Initial Code
 
