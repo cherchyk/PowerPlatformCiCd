@@ -151,7 +151,7 @@ In this exercise we clone code from lab repository and then push it to our Azure
 
 In this exercise we build solution from source code, install required PowerShell module and then create solution package.
 
-- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder and build it.
+- In Visual Studio Open solution from `C:\PowerPlatformCICDLab` folder and **build it** (Ctrl + Shift + B).
 
   In Visual Studio you can see that we have:
   - Plugins project - C# project for custom plugins
@@ -204,9 +204,9 @@ In this exercise we change the solution via PowerPlatform UI, then we load chang
   ![Entity Change](doc-media/PP-EntityChange.png 'Entity Change')
 
 - In PowerShell window execute `git checkout -b feature/newfeature`
-- Run `.\PowerShell\Online-2-Local.ps1` this loads solution file (zip) from online to your local folder.
+- Run `.\PowerShell\Online-2-Local.ps1` this loads solution file (zip) from online to your local folder.  If it fails with message *A connection to CRM is required* then run `.\PowerShell\Connect.ps1` again and pick your Dev instance.
 - Run `.\PowerShell\Extract.ps1` this extracts solution into folder structure.
-- If you run `git status` you will see what was changed.
+- If you run `git status` you will see what was changed.  Change that you did online was loaded to your PC.
 - Commit changes to remote repository:
   - `git config --global user.email "you@example.com"` this and the second commands are required when you start using Git
   - `git config --global user.name "Your Name"`
@@ -222,23 +222,29 @@ At this point we demonstrated steps 1 and 2 from this diagram.
 
 In this exercise we create Azure DevOps Pipeline that listens to commits in branches.  After commit, pipeline uses source code to build, run tests and package solution.  If commit is to `master` branch then pipeline will also deploy package to `Feature` PowerPlatform instance.  In order for pipeline to "know" where to deploy we use pipeline variables.
 
-- In Azure DevOps navigate to Pipeline Builds
+- In Azure DevOps navigate to Pipelines Pipelines  (in older environments you will see Pipelines Builds in navigation)
 
-  ![PipelineBuilds](doc-media/DevOps-PipelineBuilds.png '')
+  ![Pipeline](doc-media/DevOps-PipelinePipelines.png '')
 
-  On the new screen click `New pipeline`
-- In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
-- `azure-pipelines.yml` is pulled from repository for your review.  Click `Run` to finish creating pipeline.  Pipeline starts immediately on `Master` branch.  Pipeline will fail on the first stage because of failing unit test.  We will fix unit tests in the next exercise.
+- Latest Azure DevOps creates pipeline automatically as it sees `azure-pipelines.yml` is the repository.  Generated name for the pipeline is `<your project name> CI`.
+
+  If pipeline was not create then follow these steps:
+  
+  - On the new screen click `New pipeline`
+  - In `Where is your code?` page select `Azure Repos Git` and then on `Select a repository` select the name of your project.
+  - `azure-pipelines.yml` is pulled from repository for your review.  Click `Run` to finish creating pipeline.  Pipeline starts immediately on `Master` branch.  Pipeline will fail on the first stage because of failing unit test.  We will fix unit tests in the next exercise.
+
+
 - To finish setting up the pipeline we need to set pipeline variables.
 
-  Navigate again to the Pipeline Builds and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
+  Navigate to the Pipelines Pipelines, click on your pipeline and then click `Edit`.  You will see yaml source.  On top right corner click on three dots menu and select `Variables`.
 
-  ![Pipeline Builds](doc-media/DevOps-Variables.png 'Pipeline Builds')
+  ![Pipeline](doc-media/DevOps-Variables.png 'Pipeline')
 
 - Please add the following variables:
-  - `environment.url` - use *Production* url from Lab settings page
-  - `serviceAccount.password` - use *Production* password from Lab settings page
-  - `serviceAccount.upn` - use *Production* url from Lab settings page
+  - `environment.url` - use *Feature* url from Lab settings page
+  - `environment.username` - use *Feature* username from Lab settings page
+  - `environment.password` - use *Feature* password from Lab settings page
   - `solution.packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
 
   `system.` variables are added by Azure DevOps system.
