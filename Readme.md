@@ -101,7 +101,7 @@ Lab environment:
 
 ## Exercise 1 - Prepare VM
 
-- Use Remote Desktop Connection to log to your VM, use credentials from Lab details.
+- Use Remote Desktop Connection app on your PC to log to lab VM, use credentials from Lab details.
 - Open `Visual Studio 19` from the desktop. As you load Visual Studio for the first time it asks for account details.  Please use Azure credentials from Lab details.
 
 ## Exercise 2 - Create DevOps project
