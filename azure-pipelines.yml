@@ -50,8 +50,8 @@ stages:
 
       env:
         EnvironmentUrl: $(environment.url)
-        ServiceAccountUpn: $(serviceAccount.upn)
-        ServiceAccountPassword: $(serviceAccount.password)
+        ServiceAccountUpn: $(environment.username)
+        ServiceAccountPassword: $(environment.password)
       displayName: '###########################################################'
       condition: succeeded()
 
