@@ -1,7 +1,4 @@
-# .NET Desktop
-# Build and run tests for .NET Desktop or Windows classic desktop solutions.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
 
 name: $(TeamProject)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
@@ -28,8 +25,6 @@ stages:
       buildConfiguration: 'Release'
 
     steps:
-
-
 
     - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
       displayName: 'Install Microsoft.Xrm.Data.PowerShell'
@@ -145,56 +140,54 @@ stages:
     displayName: Deploy to Production Job
     pool:
       vmImage: 'VS2017-Win2016'
-    #environment: Production
-    #strategy:
-     # runOnce:
-       #  deploy:
-    steps:
-    - checkout: none
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
 
-    - task: DownloadPipelineArtifact@1
-      inputs:
-        artifactName: 'package'
-        targetPath: $(Build.ArtifactStagingDirectory)
+          - task: DownloadPipelineArtifact@1
+            inputs:
+              artifactName: 'package'
+              targetPath: $(Build.ArtifactStagingDirectory)
 
-    #Import solution into target environment
-    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-      displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-      condition: succeeded()
+          #Import solution into target environment
+          - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+            displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+            condition: succeeded()
 
-    #Connect to CRM and Import
-    - powershell: |
+          #Connect to CRM and Import
+          - powershell: |
 
-        $connectionString = "AuthType = Office365;" + `
-            "Username = $env:ServiceAccountUpn;" + `
-            "Password = $env:ServiceAccountPassword;" + `
-            "Url = https://$env:EnvironmentUrl"
+              $connectionString = "AuthType = Office365;" + `
+                  "Username = $env:ServiceAccountUpn;" + `
+                  "Password = $env:ServiceAccountPassword;" + `
+                  "Url = https://$env:EnvironmentUrl"
 
-        $connectionString
+              $connectionString
 
-        $connection = Get-CrmConnection `
-          -ConnectionString $connectionString
+              $connection = Get-CrmConnection `
+                -ConnectionString $connectionString
 
-        $connection
+              $connection
 
-        $connection = Get-CrmConnection `
-          -ConnectionString `
-            ("AuthType = Office365;" + `
-            "Username = $env:ServiceAccountUpn;" + `
-            "Password = $env:ServiceAccountPassword;" + `
-            "Url = https://$env:EnvironmentUrl")
+              $connection = Get-CrmConnection `
+                -ConnectionString `
+                  ("AuthType = Office365;" + `
+                  "Username = $env:ServiceAccountUpn;" + `
+                  "Password = $env:ServiceAccountPassword;" + `
+                  "Url = https://$env:EnvironmentUrl")
 
-        #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
-        Import-CrmSolution `
-          -conn $connection `
-          -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
-          #-MaxWaitTimeInSeconds
+              #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+              Import-CrmSolution `
+                -conn $connection `
+                -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
+                #-MaxWaitTimeInSeconds
 
-        Publish-CrmAllCustomization -conn $connection
-      env:
-        EnvironmentUrl: $(environment.url)
-        ServiceAccountUpn: $(environment.username)
-        ServiceAccountPassword: $(environment.password)
-      displayName: 'Import solution'
-      condition: succeeded()
-
+              Publish-CrmAllCustomization -conn $connection
+            env:
+              EnvironmentUrl: $(environment.url)
+              ServiceAccountUpn: $(environment.username)
+              ServiceAccountPassword: $(environment.password)
+            displayName: 'Import solution'
+            condition: succeeded()
