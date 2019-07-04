@@ -144,12 +144,7 @@ stages:
 
               $env:EnvironmentUrl
 
-              $connection = Get-CrmConnection `
-                -ConnectionString `
-                  ("AuthType = Office365;" + `
-                  "Username = $env:ServiceAccountUpn;" + `
-                  "Password = $env:ServiceAccountPassword;" + `
-                  "Url = https://$env:EnvironmentUrl")
+              $connection = Get-CrmConnection -ConnectionString ("AuthType = Office365;Username = $envServiceAccountUpn;Password = $envServiceAccountPassword;Url = https://$envEnvironmentUrl")
 
               $connection
 
