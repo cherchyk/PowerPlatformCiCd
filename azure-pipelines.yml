@@ -31,29 +31,29 @@ stages:
 
 
 
-    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-      displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-      condition: succeeded()
-
-    - powershell: |
-        $connectionString = "AuthType = Office365;" + `
-            "Username = $env:ServiceAccountUpn;" + `
-            "Password = $env:ServiceAccountPassword;" + `
-            "Url = https://$env:EnvironmentUrl"
-
-        $connectionString
-
-        $connection = Get-CrmConnection `
-          -ConnectionString $connectionString
-         
-        $connection
-
-      env:
-        EnvironmentUrl: $(environment.url)
-        ServiceAccountUpn: $(environment.username)
-        ServiceAccountPassword: $(environment.password)
-      displayName: '###########################################################'
-      condition: succeeded()
+#   - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+#     displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+#     condition: succeeded()
+#
+#   - powershell: |
+#       $connectionString = "AuthType = Office365;" + `
+#           "Username = $env:ServiceAccountUpn;" + `
+#           "Password = $env:ServiceAccountPassword;" + `
+#           "Url = https://$env:EnvironmentUrl"
+#
+#       $connectionString
+#
+#       $connection = Get-CrmConnection `
+#         -ConnectionString $connectionString
+#        
+#       $connection
+#
+#     env:
+#       EnvironmentUrl: $(environment.url)
+#       ServiceAccountUpn: $(environment.username)
+#       ServiceAccountPassword: $(environment.password)
+#     displayName: '###########################################################'
+#     condition: succeeded()
 
 
 
@@ -141,7 +141,7 @@ stages:
 
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Deploy2Production_Job
     displayName: Deploy to Production Job
@@ -166,6 +166,19 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
+
+              $connectionString = "AuthType = Office365;" + `
+                  "Username = $env:ServiceAccountUpn;" + `
+                  "Password = $env:ServiceAccountPassword;" + `
+                  "Url = https://$env:EnvironmentUrl"
+
+              $connectionString
+
+              $connection = Get-CrmConnection `
+                -ConnectionString $connectionString
+
+              $connection
+
               $connection = Get-CrmConnection `
                 -ConnectionString `
                   ("AuthType = Office365;" + `
@@ -182,8 +195,25 @@ stages:
               Publish-CrmAllCustomization -conn $connection
             env:
               EnvironmentUrl: $(environment.url)
-              SolutionName: $(solution.name)
-              ServiceAccountUpn: $(serviceAccount.upn)
-              ServiceAccountPassword: $(serviceAccount.password)
+              ServiceAccountUpn: $(environment.username)
+              ServiceAccountPassword: $(environment.password)
             displayName: 'Import solution'
             condition: succeeded()
+
+#   - powershell: |
+#       $connectionString = "AuthType = Office365;" + `
+#           "Username = $env:ServiceAccountUpn;" + `
+#           "Password = $env:ServiceAccountPassword;" + `
+#           "Url = https://$env:EnvironmentUrl"
+#
+#       $connectionString
+#
+#       $connection = Get-CrmConnection `
+#         -ConnectionString $connectionString
+#        
+#       $connection
+#
+#     env:
+#       EnvironmentUrl: $(environment.url)
+#       ServiceAccountUpn: $(environment.username)
+#       ServiceAccountPassword: $(environment.password)
