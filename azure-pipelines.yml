@@ -148,7 +148,7 @@ stages:
                 -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
                 #-MaxWaitTimeInSeconds
 
-              Publish-CrmAllCustomization -conn $connection
+              #Publish-CrmAllCustomization -conn $connection
             env:
               EnvironmentUrl: $(environment.url)
               ServiceAccountUpn: $(serviceAccount.upn)
