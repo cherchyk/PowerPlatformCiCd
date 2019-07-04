@@ -44,10 +44,9 @@ stages:
         $connection
       env:
         EnvironmentUrl: $(environment.url)
-        SolutionName: $(solution.name)
         ServiceAccountUpn: $(serviceAccount.upn)
         ServiceAccountPassword: $(serviceAccount.password)
-      displayName: 'Import solution'
+      displayName: '###########################################################'
       condition: succeeded()
 
 
