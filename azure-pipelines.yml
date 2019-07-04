@@ -147,6 +147,8 @@ stages:
 
               $connection
 
+              Write-Host $connection -ForegroundColor Green
+
               #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
               Import-CrmSolution `
                 -conn $connection `
