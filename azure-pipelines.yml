@@ -31,31 +31,29 @@ stages:
 
 
 
-#   - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-#     displayName: 'Install Microsoft.Xrm.Data.PowerShell'
-#     condition: succeeded()
-#
-#   - powershell: |
-#       $connectionString = "AuthType = Office365;" + `
-#           "Username = $env:ServiceAccountUpn;" + `
-#           "Password = $env:ServiceAccountPassword;" + `
-#           "Url = https://$env:EnvironmentUrl"
-#
-#       $connectionString
-#
-#       $connection = Get-CrmConnection `
-#         -ConnectionString $connectionString
-#        
-#       $connection
-#
-#     env:
-#       EnvironmentUrl: $(environment.url)
-#       ServiceAccountUpn: $(environment.username)
-#       ServiceAccountPassword: $(environment.password)
-#     displayName: '###########################################################'
-#     condition: succeeded()
-
-
+    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+      displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+      condition: succeeded()
+ 
+    - powershell: |
+        $connectionString = "AuthType = Office365;" + `
+            "Username = $env:ServiceAccountUpn;" + `
+            "Password = $env:ServiceAccountPassword;" + `
+            "Url = https://$env:EnvironmentUrl"
+ 
+        $connectionString
+ 
+        $connection = Get-CrmConnection `
+          -ConnectionString $connectionString
+         
+        $connection
+ 
+      env:
+        EnvironmentUrl: $(environment.url)
+        ServiceAccountUpn: $(environment.username)
+        ServiceAccountPassword: $(environment.password)
+      displayName: '###########################################################'
+      condition: succeeded()
 
     ############################### Build
 
