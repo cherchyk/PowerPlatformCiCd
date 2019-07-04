@@ -29,6 +29,29 @@ stages:
 
     steps:
 
+
+
+    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
+      displayName: 'Install Microsoft.Xrm.Data.PowerShell'
+      condition: succeeded()
+
+    - powershell: |
+        $connection = "AuthType = Office365;" + `
+            "Username = $env:EnvironmentUsername;" + `
+            "Password = $env:EnvironmentPassword;" + `
+            "Url = https://$env:EnvironmentUrl"
+
+        $connection
+      env:
+        EnvironmentUrl: $(environment.url)
+        SolutionName: $(solution.name)
+        ServiceAccountUpn: $(serviceAccount.upn)
+        ServiceAccountPassword: $(serviceAccount.password)
+      displayName: 'Import solution'
+      condition: succeeded()
+
+
+
     ############################### Build
 
     - task: NuGetToolInstaller@0
@@ -138,11 +161,20 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
-              $connection = "AuthType = Office365;Username = $envServiceAccountUpn;Password = $envServiceAccountPassword;Url = https://$envEnvironmentUrl"
+              $connection = Get-CrmConnection `
+                -ConnectionString `
+                  ("AuthType = Office365;" + `
+                  "Username = $env:EnvironmentUsername;" + `
+                  "Password = $env:EnvironmentPassword;" + `
+                  "Url = https://$env:EnvironmentUrl")
 
-              $connection
-             
-              
+              #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+              Import-CrmSolution `
+                -conn $connection `
+                -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
+                #-MaxWaitTimeInSeconds
+
+              Publish-CrmAllCustomization -conn $connection
             env:
               EnvironmentUrl: $(environment.url)
               SolutionName: $(solution.name)
