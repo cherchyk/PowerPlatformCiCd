@@ -36,12 +36,18 @@ stages:
       condition: succeeded()
 
     - powershell: |
-        $connection = "AuthType = Office365;" + `
-            "Username = $env:EnvironmentUsername;" + `
-            "Password = $env:EnvironmentPassword;" + `
+        $connectionString = "AuthType = Office365;" + `
+            "Username = $env:ServiceAccountUpn;" + `
+            "Password = $env:ServiceAccountPassword;" + `
             "Url = https://$env:EnvironmentUrl"
 
+        $connectionString
+
+        $connection = Get-CrmConnection `
+          -ConnectionString $connectionString
+         
         $connection
+
       env:
         EnvironmentUrl: $(environment.url)
         ServiceAccountUpn: $(serviceAccount.upn)
@@ -135,7 +141,7 @@ stages:
 
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: Deploy2Production_Job
     displayName: Deploy to Production Job
@@ -163,8 +169,8 @@ stages:
               $connection = Get-CrmConnection `
                 -ConnectionString `
                   ("AuthType = Office365;" + `
-                  "Username = $env:EnvironmentUsername;" + `
-                  "Password = $env:EnvironmentPassword;" + `
+                  "Username = $env:ServiceAccountUpn;" + `
+                  "Password = $env:ServiceAccountPassword;" + `
                   "Url = https://$env:EnvironmentUrl")
 
               #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
