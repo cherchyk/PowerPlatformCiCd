@@ -242,10 +242,10 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
   ![Pipeline](doc-media/DevOps-Variables.png 'Pipeline')
 
 - Please add the following variables:
-  - `environment.url` - use *Feature* url from Lab settings page
-  - `environment.username` - use *Feature* username from Lab settings page
-  - `environment.password` - use *Feature* password from Lab settings page
-  - `solution.packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
+  - `eurl` - use *Feature* url from Lab settings page
+  - `eusername` - use *Feature* username from Lab settings page
+  - `epassword` - use *Feature* password from Lab settings page
+  - `packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
 
   `system.` variables are added by Azure DevOps system.
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`

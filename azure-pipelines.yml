@@ -84,7 +84,7 @@ stages:
         -Wait `
         -NoNewWindow
       env:
-        PackageType: $(solution.packagetype)
+        PackageType: $(packagetype)
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
 
@@ -98,7 +98,7 @@ stages:
 
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:  # we had to intro these variables in stage level isntead of PS task because of recent bug that prevented PS receive it's variables.
     STAGE_Url: $(eurl)
     STAGE_Usr: $(eusername)
