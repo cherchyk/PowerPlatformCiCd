@@ -152,7 +152,7 @@ stages:
           steps:
           - checkout: none
 
-          - script: echo $(STAGE_VAR) $(JOB_VAR) STAGE_Url 
+          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url) 
 
           - task: DownloadPipelineArtifact@1
             inputs:
