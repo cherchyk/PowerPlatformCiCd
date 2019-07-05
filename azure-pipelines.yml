@@ -165,8 +165,12 @@ stages:
             condition: succeeded()
 
           - powershell: echo $env:MYSECRET
+            displayName: 'direct from pipeline variables'
             env:
               MySecret: $(environment.url)
+
+          - powershell: echo $(STAGE_Url)
+            displayName: 'just stage var'
 
           #Connect to CRM and Import
           - powershell: |
