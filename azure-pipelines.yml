@@ -137,6 +137,7 @@ stages:
   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
     STAGE_VAR: 'another value'
+    STAGE_Url: $(environment.url)
   jobs:
   - deployment: Deploy2Production_Job
     displayName: Deploy to Production Job
@@ -151,7 +152,7 @@ stages:
           steps:
           - checkout: none
 
-          - script: echo $(STAGE_VAR) $(JOB_VAR)
+          - script: echo $(STAGE_VAR) $(JOB_VAR) STAGE_Url 
 
           - task: DownloadPipelineArtifact@1
             inputs:
