@@ -129,10 +129,7 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
-              $connectionString = "AuthType = Office365;" + `
-                  "Username = $(STAGE_Usr);" + `
-                  "Password = $(STAGE_Pas);" + `
-                  "Url = $(STAGE_Url)"
+              $connectionString = "AuthType = Office365;Username = $(STAGE_Usr);Password = $(STAGE_Pas);Url = $(STAGE_Url)"
 
               $connection = Get-CrmConnection -ConnectionString $connectionString
 
