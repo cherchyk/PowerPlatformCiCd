@@ -25,30 +25,6 @@ stages:
 
     steps:
 
-    - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-      displayName: '@@@@@    Install Microsoft.Xrm.Data.PowerShell'
-      condition: succeeded()
- 
-    - powershell: |
-        $connectionString = "AuthType = Office365;" + `
-            "Username = $env:EnvironmentUsername;" + `
-            "Password = $env:EnvironmentPassword;" + `
-            "Url = $env:EnvironmentUrl"
- 
-        $connectionString
- 
-        $connection = Get-CrmConnection `
-          -ConnectionString $connectionString
-         
-        $connection
- 
-      env:
-        EnvironmentUrl: $(eurl)
-        EnvironmentUsername: $(eusername)
-        EnvironmentPassword: $(epassword)
-      displayName: '@@@@@@@@@@@@@@@  Connect'
-      condition: succeeded()
-
     ############################### Build
 
     - task: NuGetToolInstaller@0
@@ -112,14 +88,6 @@ stages:
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
 
-    #Publish build artifacts
-    #- task: PublishBuildArtifacts@1
-    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    #  inputs:
-    #    pathtoPublish: $(Build.ArtifactStagingDirectory)
-    #    artifactName: drop
-    #  displayName: 'Publish build artifacts'
-
     - task: PublishPipelineArtifact@0
       condition: succeeded()
       inputs:
@@ -131,7 +99,7 @@ stages:
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  variables:  # stage-level
+  variables:  # we had to intro these variables in stage level isntead of PS task because of recent bug that prevented PS receive it's variables.
     STAGE_Url: $(eurl)
     STAGE_Usr: $(eusername)
     STAGE_Pas: $(epassword)
@@ -161,13 +129,10 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
-              echo '@@@@@@ THIS IS SICK'
               $connectionString = "AuthType = Office365;" + `
                   "Username = $(STAGE_Usr);" + `
                   "Password = $(STAGE_Pas);" + `
                   "Url = $(STAGE_Url)"
-
-              echo $connectionString
 
               $connection = Get-CrmConnection -ConnectionString $connectionString
 
@@ -177,6 +142,10 @@ stages:
               Import-CrmSolution -conn $connection -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
                 #-MaxWaitTimeInSeconds
 
-              Publish-CrmAllCustomization -conn $connection              
+              Publish-CrmAllCustomization -conn $connection
+
+              echo "..."
+              echo "Completed"
+
             displayName: 'Import solution'
             condition: succeeded()
