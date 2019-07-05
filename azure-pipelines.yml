@@ -31,8 +31,8 @@ stages:
  
     - powershell: |
         $connectionString = "AuthType = Office365;" + `
-            "Username = $env:ServiceAccountUpn;" + `
-            "Password = $env:ServiceAccountPassword;" + `
+            "Username = $env:EnvironmentUsername;" + `
+            "Password = $env:EnvironmentPassword;" + `
             "Url = https://$env:EnvironmentUrl"
  
         $connectionString
@@ -44,8 +44,8 @@ stages:
  
       env:
         EnvironmentUrl: $(eurl)
-        ServiceAccountUpn: $(eusername)
-        ServiceAccountPassword: $(epassword)
+        EnvironmentUsername: $(eusername)
+        EnvironmentPassword: $(epassword)
       displayName: '################  Connect'
       condition: succeeded()
 
