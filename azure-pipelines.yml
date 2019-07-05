@@ -134,6 +134,8 @@ stages:
   variables:  # stage-level
     STAGE_VAR: 'stage value'
     STAGE_Url: $(eurl)
+    STAGE_Usr: $(eusername)
+    STAGE_Pas: $(epassword)
   jobs:
   - deployment: Deploy2Production_Job
     displayName: Deploy to Production Job
@@ -148,7 +150,7 @@ stages:
           steps:
           - checkout: none
 
-          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)
+          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)  $(STAGE_Usr)  $(STAGE_Pas) 
 
           - task: DownloadPipelineArtifact@1
             inputs:
@@ -173,8 +175,11 @@ stages:
               echo $env:ES
               echo '@@@@@@@@'
               
-              echo $(STAGE_Url)
-              echo '@@@@@@'
+              $(STAGE_Url) 
+              $(STAGE_Usr) 
+              $(STAGE_Pas) 
+
+              echo '@@@@@@ THIS IS SICK'
               $connectionString = "AuthType = Office365;" + `
                   "Username = $env:EnvironmentUsername;" + `
                   "Password = $env:EnvironmentPassword;" + `
