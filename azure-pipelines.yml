@@ -174,16 +174,16 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
-              $env:ES
+              echo $env:ES
 
-              $(STAGE_Url)
+              echo $(STAGE_Url)
 
               $connectionString = "AuthType = Office365;" + `
                   "Username = $env:ServiceAccountUpn;" + `
                   "Password = $env:ServiceAccountPassword;" + `
                   "Url = https://$env:EnvironmentUrl"
 
-              $connectionString
+              echo $connectionString
 
              #$connection = Get-CrmConnection `
              #  -ConnectionString $connectionString
