@@ -152,7 +152,7 @@ stages:
           steps:
           - checkout: none
 
-          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url) 
+          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)
 
           - task: DownloadPipelineArtifact@1
             inputs:
@@ -166,8 +166,9 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
+              $env:ES
 
-              $env:EnvironmentTest
+              $(STAGE_Url)
 
               $connectionString = "AuthType = Office365;" + `
                   "Username = $env:ServiceAccountUpn;" + `
@@ -196,7 +197,7 @@ stages:
 
               Publish-CrmAllCustomization -conn $connection
             env:
-              EnvironmentTest: 21312
+              Es: '21312'
               EnvironmentUrl: $(environment.url)
               ServiceAccountUpn: $(environment.username)
               ServiceAccountPassword: $(environment.password)
