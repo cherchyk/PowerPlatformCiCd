@@ -26,7 +26,7 @@ stages:
     steps:
 
     - powershell: Install-Module Microsoft.Xrm.Data.Powershell -Scope CurrentUser -Force
-      displayName: '###### Install Microsoft.Xrm.Data.PowerShell'
+      displayName: '@@@@@    Install Microsoft.Xrm.Data.PowerShell'
       condition: succeeded()
  
     - powershell: |
@@ -46,7 +46,7 @@ stages:
         EnvironmentUrl: $(eurl)
         EnvironmentUsername: $(eusername)
         EnvironmentPassword: $(epassword)
-      displayName: '################  Connect'
+      displayName: '@@@@@@@@@@@@@@@  Connect'
       condition: succeeded()
 
     ############################### Build
@@ -161,47 +161,27 @@ stages:
             condition: succeeded()
 
           - powershell: echo $env:MYSECRET
-            displayName: '##### direct from pipeline variables'
+            displayName: '@@@@@ direct from pipeline variables'
             env:
               MySecret: $(eurl)
 
           - powershell: echo $(STAGE_Url)
-            displayName: '##### just stage var'
+            displayName: '@@@@@ just stage var'
 
           #Connect to CRM and Import
           - powershell: |
               echo $env:ES
-              echo '###'
+              echo '@@@@@@@@'
               
               echo $(STAGE_Url)
-              echo '###'
+              echo '@@@@@@'
               $connectionString = "AuthType = Office365;" + `
                   "Username = $env:EnvironmentUsername;" + `
                   "Password = $env:EnvironmentPassword;" + `
                   "Url = https://$env:EnvironmentUrl"
 
               echo $connectionString
-              echo '###'
-
-             #$connection = Get-CrmConnection `
-             #  -ConnectionString $connectionString
-
-             #$connection
-
-             #$connection = Get-CrmConnection `
-             #  -ConnectionString `
-             #    ("AuthType = Office365;" + `
-             #    "Username = $env:EnvironmentUsername;" + `
-             #    "Password = $env:EnvironmentPassword;" + `
-             #    "Url = https://$env:EnvironmentUrl")
-
-             ##I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
-             #Import-CrmSolution `
-             #  -conn $connection `
-             #  -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
-             #  #-MaxWaitTimeInSeconds
-
-             #Publish-CrmAllCustomization -conn $connection
+              echo '@@@@@'
             env:
               Es: '21312'
               EnvironmentUrl: $(eurl)
