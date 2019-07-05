@@ -33,7 +33,7 @@ stages:
         $connectionString = "AuthType = Office365;" + `
             "Username = $env:EnvironmentUsername;" + `
             "Password = $env:EnvironmentPassword;" + `
-            "Url = https://$env:EnvironmentUrl"
+            "Url = $env:EnvironmentUrl"
  
         $connectionString
  
@@ -132,7 +132,6 @@ stages:
   displayName: Deploy to Production Stage
   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:  # stage-level
-    STAGE_VAR: 'stage value'
     STAGE_Url: $(eurl)
     STAGE_Usr: $(eusername)
     STAGE_Pas: $(epassword)
@@ -142,15 +141,13 @@ stages:
     pool:
       vmImage: 'VS2017-Win2016'
     environment: Production
-    variables:  # job-level
-      JOB_VAR: 'a job var'
     strategy:
       runOnce:
         deploy:
           steps:
           - checkout: none
 
-          - script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)  $(STAGE_Usr)  $(STAGE_Pas) 
+          #- script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)  $(STAGE_Usr)  $(STAGE_Pas) 
 
           - task: DownloadPipelineArtifact@1
             inputs:
@@ -162,43 +159,24 @@ stages:
             displayName: 'Install Microsoft.Xrm.Data.PowerShell'
             condition: succeeded()
 
-          - powershell: echo $env:MYSECRET
-            displayName: '@@@@@ direct from pipeline variables'
-            env:
-              MYSECRET: $(eurl)
-
-          - powershell: echo $(STAGE_Url)
-            displayName: '@@@@@ just stage var'
-
           #Connect to CRM and Import
           - powershell: |
-              echo $env:ES
-              echo '@@@@@@@@'
-              
-              echo "$(STAGE_Url)"
-              echo "$(STAGE_Usr)"
-              echo "$(STAGE_Pas)"
-
               echo '@@@@@@ THIS IS SICK'
               $connectionString = "AuthType = Office365;" + `
                   "Username = $(STAGE_Usr);" + `
                   "Password = $(STAGE_Pas);" + `
-                  "Url = https://$(STAGE_Url)"
+                  "Url = $(STAGE_Url)"
 
               echo $connectionString
-              echo '@@@@@'
 
-              $connectionString = "AuthType = Office365;" + `
-                  "Username = $env:EN_USR;" + `
-                  "Password = $env:EN_PAS;" + `
-                  "Url = https://$env:EN_URL"
+              $connection = Get-CrmConnection -ConnectionString $connectionString
 
-              echo $connectionString
-              echo '@@@@@'
-            env:
-              Es: '21312'
-              EN_URL: $(eurl)
-              EN_USR: $(eusername)
-              EN_PAS: $(epassword)
+              $connection
+
+              #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
+              Import-CrmSolution -conn $connection -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
+                #-MaxWaitTimeInSeconds
+
+              Publish-CrmAllCustomization -conn $connection              
             displayName: 'Import solution'
             condition: succeeded()
