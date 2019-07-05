@@ -165,7 +165,7 @@ stages:
           - powershell: echo $env:MYSECRET
             displayName: '@@@@@ direct from pipeline variables'
             env:
-              MySecret: $(eurl)
+              MYSECRET: $(eurl)
 
           - powershell: echo $(STAGE_Url)
             displayName: '@@@@@ just stage var'
@@ -175,9 +175,9 @@ stages:
               echo $env:ES
               echo '@@@@@@@@'
               
-              $(STAGE_Url)
-              $(STAGE_Usr)
-              $(STAGE_Pas)
+              echo "$(STAGE_Url)"
+              echo "$(STAGE_Usr)"
+              echo "$(STAGE_Pas)"
 
               echo '@@@@@@ THIS IS SICK'
               $connectionString = "AuthType = Office365;" + `
