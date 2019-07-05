@@ -175,22 +175,30 @@ stages:
               echo $env:ES
               echo '@@@@@@@@'
               
-              $(STAGE_Url) 
-              $(STAGE_Usr) 
-              $(STAGE_Pas) 
+              $(STAGE_Url)
+              $(STAGE_Usr)
+              $(STAGE_Pas)
 
               echo '@@@@@@ THIS IS SICK'
               $connectionString = "AuthType = Office365;" + `
-                  "Username = $env:EnvironmentUsername;" + `
-                  "Password = $env:EnvironmentPassword;" + `
-                  "Url = https://$env:EnvironmentUrl"
+                  "Username = $(STAGE_Usr);" + `
+                  "Password = $(STAGE_Pas);" + `
+                  "Url = https://$(STAGE_Url)"
+
+              echo $connectionString
+              echo '@@@@@'
+
+              $connectionString = "AuthType = Office365;" + `
+                  "Username = $env:EN_USR;" + `
+                  "Password = $env:EN_PAS;" + `
+                  "Url = https://$env:EN_URL"
 
               echo $connectionString
               echo '@@@@@'
             env:
               Es: '21312'
-              EnvironmentUrl: $(eurl)
-              EnvironmentUsername: $(eusername)
-              EnvironmentPassword: $(epassword)
+              EN_URL: $(eurl)
+              EN_USR: $(eusername)
+              EN_PAS: $(epassword)
             displayName: 'Import solution'
             condition: succeeded()
