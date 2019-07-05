@@ -101,7 +101,7 @@ Lab environment:
 
 ## Exercise 1 - Prepare VM
 
-- Log to your VM, use credentials from Lab details.
+- Use Remote Desktop Connection app on your PC to log to lab VM, use credentials from Lab details.
 - Open `Visual Studio 19` from the desktop. As you load Visual Studio for the first time it asks for account details.  Please use Azure credentials from Lab details.
 
 ## Exercise 2 - Create DevOps project
@@ -117,14 +117,14 @@ In this exercise we prepare Azure DevOps project.
 
   ![Development Streams](doc-media/DevOps-CreateProject.png 'Development Streams')
 
-- In the rop right corner click on circle icon avatar and then lick `Preview features`.  Switch `Multi-stage pipelines` to on.
+- In the rop right corner click on circle icon avatar and then click `Preview features`.  Switch `Multi-stage pipelines` to on.
 
-- In the navigation on the left, click on `Repo` icon and then pick `Files`.
+- In the navigation on the left, click on `Repos` icon and then pick `Files`.
 
   ![Navigation](doc-media/DevOps-RepoFiles.png '')
 - Navigate to your `default <project name> repository` link.
 
-  Note highlighted code in the next image.  You will need it in the next exercise.
+  Copy the code highlighted in the red box below.  You will need it in the next exercise.
 
   ![New repo screen](doc-media/DevOps-RepoAdd.png '')
 
@@ -242,10 +242,10 @@ In this exercise we create Azure DevOps Pipeline that listens to commits in bran
   ![Pipeline](doc-media/DevOps-Variables.png 'Pipeline')
 
 - Please add the following variables:
-  - `environment.url` - use *Feature* url from Lab settings page
-  - `environment.username` - use *Feature* username from Lab settings page
-  - `environment.password` - use *Feature* password from Lab settings page
-  - `solution.packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
+  - `eurl` - use *Feature* url from Lab settings page
+  - `eusername` - use *Feature* username from Lab settings page
+  - `epassword` - use *Feature* password from Lab settings page
+  - `packagetype` - set it to `Unmanaged`.  This setting gives you ability to deploy Unmanaged and Managed solution packages.
 
   `system.` variables are added by Azure DevOps system.
 - Click `Save and queue` and then pick your newly created branch `feature/newfeature`

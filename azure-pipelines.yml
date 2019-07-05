@@ -1,7 +1,3 @@
-# .NET Desktop
-# Build and run tests for .NET Desktop or Windows classic desktop solutions.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 name: $(TeamProject)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
@@ -88,17 +84,9 @@ stages:
         -Wait `
         -NoNewWindow
       env:
-        PackageType: $(solution.packagetype)
+        PackageType: $(packagetype)
       displayName: 'Solution Packager: pack solution'
       condition: succeeded()
-
-    #Publish build artifacts
-    #- task: PublishBuildArtifacts@1
-    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    #  inputs:
-    #    pathtoPublish: $(Build.ArtifactStagingDirectory)
-    #    artifactName: drop
-    #  displayName: 'Publish build artifacts'
 
     - task: PublishPipelineArtifact@0
       condition: succeeded()
@@ -111,6 +99,10 @@ stages:
 - stage: Deploy2ProductionStage
   displayName: Deploy to Production Stage
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:  # we had to intro these variables in stage level isntead of PS task because of recent bug that prevented PS receive it's variables.
+    STAGE_Url: $(eurl)
+    STAGE_Usr: $(eusername)
+    STAGE_Pas: $(epassword)
   jobs:
   - deployment: Deploy2Production_Job
     displayName: Deploy to Production Job
@@ -122,6 +114,8 @@ stages:
         deploy:
           steps:
           - checkout: none
+
+          #- script: echo $(STAGE_VAR) $(JOB_VAR) $(STAGE_Url)  $(STAGE_Usr)  $(STAGE_Pas) 
 
           - task: DownloadPipelineArtifact@1
             inputs:
@@ -135,23 +129,20 @@ stages:
 
           #Connect to CRM and Import
           - powershell: |
-              $connection = Get-CrmConnection `
-                -ConnectionString `
-                  ("AuthType = Office365;" + `
-                  "Username = $env:EnvironmentUsername;" + `
-                  "Password = $env:EnvironmentPassword;" + `
-                  "Url = https://$env:EnvironmentUrl")
+              $connectionString = "AuthType = Office365;Username = $(STAGE_Usr);Password = $(STAGE_Pas);Url = $(STAGE_Url)"
+
+              $connection = Get-CrmConnection -ConnectionString $connectionString
+
+              $connection
 
               #I had to use Import-CrmSolutionAsync -BlockUntilImportComplete in my case for a fairly bigger solution.
-              Import-CrmSolution `
-                -conn $connection `
-                -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
+              Import-CrmSolution -conn $connection -SolutionFilePath $(Build.ArtifactStagingDirectory)\solutionpackage.zip
                 #-MaxWaitTimeInSeconds
 
               Publish-CrmAllCustomization -conn $connection
-            env:
-              EnvironmentUrl: $(environment.url)
-              EnvironmentUsername: $(environment.username)
-              EnvironmentPassword: $(environment.password)
+
+              echo "..."
+              echo "Completed"
+
             displayName: 'Import solution'
             condition: succeeded()
