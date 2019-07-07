@@ -285,12 +285,12 @@ In this exercise we verify continues deployment.  `azure-pipelines.yml` has step
 
 # Summary
 
-Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in future.  This significantly saves time and prevents from human errors.
+Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in the future.  This significantly saves time and prevents from human errors.
 
 This Lab demonstrates 1-4 steps from this diagram
 
 ![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
 
-All further steps are done in same pattern.
+All further steps follow the same pattern.
 
 For questions and comments please contact bohdan.cherchyk@microsoft.com
