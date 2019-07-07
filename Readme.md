@@ -1,5 +1,5 @@
 
-[![Build Status](https://dev.azure.com/bocherch/DynamicsCICD/_apis/build/status/DynamicsDevOpsVS-2?branchName=master)](https://dev.azure.com/bocherch/DynamicsCICD/_build/latest?definitionId=8&branchName=master) - Master branch
+[![Build Status](https://dev.azure.com/bocherch/PowerPlatformCICDLab/_apis/build/status/Dynamics%20CICD%20Pipeline?branchName=master)](https://dev.azure.com/bocherch/PowerPlatformCICDLab/_build/latest?definitionId=8&branchName=master) - Master branch
 
 # Adopt CI/CD for Power Platform Model Driven Apps by leveraging Azure DevOps
 
@@ -285,12 +285,12 @@ In this exercise we verify continues deployment.  `azure-pipelines.yml` has step
 
 # Summary
 
-Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in future.  This significantly saves time and prevents from human errors.
+Configured solution allows us running tests, builds, packaging jobs and deployments for all new branches in the future.  This significantly saves time and prevents from human errors.
 
 This Lab demonstrates 1-4 steps from this diagram
 
 ![Power Platform ALM](doc-media/alm.png 'Power Platform ALM')
 
-All further steps are done in same pattern.
+All further steps follow the same pattern.
 
 For questions and comments please contact bohdan.cherchyk@microsoft.com
