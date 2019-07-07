@@ -1,5 +1,5 @@
 
-[![Build Status](https://dev.azure.com/bocherch/DynamicsCICD/_apis/build/status/DynamicsDevOpsVS-2?branchName=master)](https://dev.azure.com/bocherch/DynamicsCICD/_build/latest?definitionId=8&branchName=master) - Master branch
+[![Build Status](https://dev.azure.com/bocherch/PowerPlatformCICDLab/_apis/build/status/Dynamics%20CICD%20Pipeline?branchName=master)](https://dev.azure.com/bocherch/PowerPlatformCICDLab/_build/latest?definitionId=8&branchName=master) - Master branch
 
 # Adopt CI/CD for Power Platform Model Driven Apps by leveraging Azure DevOps
 
