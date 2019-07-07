@@ -142,7 +142,7 @@ stages:
               Publish-CrmAllCustomization -conn $connection
 
               echo "..."
-              echo "Completed"
+              echo "Import Completed"
 
             displayName: 'Import solution'
             condition: succeeded()
